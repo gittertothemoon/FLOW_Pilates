@@ -2,7 +2,21 @@ import { Reveal } from "./Reveal";
 
 export function HeroSection() {
   return (
-    <section className="hero-gradient grain relative min-h-screen overflow-hidden text-[var(--color-cream)]">
+    <section className="grain relative min-h-screen overflow-hidden text-[var(--color-cream)]">
+      <img
+        src="/photos/flow-photo4-studio-empty.jpg"
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 h-full w-full object-cover"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-[linear-gradient(180deg,rgba(19,19,19,0.78)_0%,rgba(26,26,26,0.72)_45%,rgba(42,37,32,0.88)_100%)]"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_0%,rgba(196,154,108,0.18),transparent_60%)]"
+      />
       <div className="relative mx-auto flex min-h-screen max-w-[1400px] flex-col px-6 pt-28 pb-20 sm:px-10 sm:pt-32 sm:pb-24 lg:px-16 lg:pt-36">
         <div className="flex flex-1 flex-col justify-center">
           <Reveal>

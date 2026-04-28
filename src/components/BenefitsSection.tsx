@@ -13,32 +13,51 @@ export function BenefitsSection() {
   return (
     <section className="bg-[var(--color-bg-warm)] text-[var(--color-ink)]">
       <div className="mx-auto max-w-[1400px] px-6 py-24 sm:px-10 sm:py-32 lg:px-16 lg:py-36">
-        <div className="max-w-3xl">
-          <Reveal>
-            <div className="flex items-center gap-4">
-              <span className="section-number text-3xl">04</span>
-              <span className="h-px flex-1 max-w-16 bg-[var(--color-accent)]/40" />
-              <span className="text-[11px] uppercase tracking-[0.28em] text-[var(--color-muted)]">
-                Cosa cambia
-              </span>
-            </div>
-          </Reveal>
-          <Reveal delay={120}>
-            <h2
-              className="mt-8 font-display font-medium leading-[1.05] tracking-[-0.02em]"
-              style={{ fontSize: "clamp(2rem, 4.5vw, 3.75rem)" }}
-            >
-              Risultati concreti,
-              <span className="block italic text-[var(--color-accent-deep)]">
-                sostenibili nel tempo.
-              </span>
-            </h2>
-          </Reveal>
-          <Reveal delay={220}>
-            <p className="mt-6 max-w-2xl text-base leading-relaxed text-[var(--color-muted)] sm:text-lg">
-              Il Reformer lavora a corpo intero in modo controllato. Postura,
-              tono, mobilità: cambiamenti reali, senza promesse esagerate.
-            </p>
+        <div className="grid items-end gap-12 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-7">
+            <Reveal>
+              <div className="flex items-center gap-4">
+                <span className="section-number text-3xl">04</span>
+                <span className="h-px flex-1 max-w-16 bg-[var(--color-accent)]/40" />
+                <span className="text-[11px] uppercase tracking-[0.28em] text-[var(--color-muted)]">
+                  Cosa cambia
+                </span>
+              </div>
+            </Reveal>
+            <Reveal delay={120}>
+              <h2
+                className="mt-8 font-display font-medium leading-[1.05] tracking-[-0.02em]"
+                style={{ fontSize: "clamp(2rem, 4.5vw, 3.75rem)" }}
+              >
+                Risultati concreti,
+                <span className="block italic text-[var(--color-accent-deep)]">
+                  sostenibili nel tempo.
+                </span>
+              </h2>
+            </Reveal>
+            <Reveal delay={220}>
+              <p className="mt-6 max-w-2xl text-base leading-relaxed text-[var(--color-muted)] sm:text-lg">
+                Il Reformer lavora a corpo intero in modo controllato. Postura,
+                tono, mobilità: cambiamenti reali, senza promesse esagerate.
+              </p>
+            </Reveal>
+          </div>
+          <Reveal delay={300} className="lg:col-span-5">
+            <figure className="group relative overflow-hidden rounded-[12px] border border-[var(--color-line-light)] shadow-[var(--shadow-soft)]">
+              <img
+                src="/photos/flow-photo3-group-class.jpg"
+                alt="Classe Pilates Reformer in piccolo gruppo con istruttore FLOW"
+                loading="lazy"
+                className="aspect-[3/4] w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.03]"
+              />
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,transparent_60%,rgba(26,26,26,0.45)_100%)]"
+              />
+              <figcaption className="absolute bottom-5 left-6 right-6 font-display text-sm italic text-white/90">
+                Piccoli gruppi, attenzione individuale.
+              </figcaption>
+            </figure>
           </Reveal>
         </div>
 

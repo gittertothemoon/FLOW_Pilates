@@ -63,6 +63,23 @@ export function SolutionSection() {
                 tecnica, sulla progressione e sul rispetto del tuo corpo.
               </p>
             </Reveal>
+            <Reveal delay={320}>
+              <figure className="group relative mt-10 overflow-hidden rounded-[10px] border border-[var(--color-cream)]/10">
+                <img
+                  src="/photos/flow-photo1-instructor-client.jpg"
+                  alt="Istruttrice FLOW guida una cliente sul Reformer in studio"
+                  loading="lazy"
+                  className="aspect-[4/3] w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.03]"
+                />
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,transparent_55%,rgba(19,19,19,0.55)_100%)]"
+                />
+                <figcaption className="absolute bottom-4 left-5 right-5 font-display text-sm italic text-[var(--color-cream)]/85">
+                  Lavoro guidato, gesto per gesto.
+                </figcaption>
+              </figure>
+            </Reveal>
           </div>
 
           <div className="lg:col-span-7">

@@ -2,7 +2,22 @@ import { Reveal } from "./Reveal";
 
 export function FinalCTA() {
   return (
-    <section className="cta-gradient grain relative overflow-hidden text-[var(--color-cream)]">
+    <section className="grain relative overflow-hidden text-[var(--color-cream)]">
+      <img
+        src="/photos/flow-photo2-reformer-detail.jpg"
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        className="absolute inset-0 h-full w-full object-cover object-center opacity-45"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-[linear-gradient(135deg,rgba(26,26,26,0.92)_0%,rgba(42,37,32,0.78)_50%,rgba(26,26,26,0.92)_100%)]"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(196,154,108,0.18),transparent_70%)]"
+      />
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-[var(--color-accent)]/40 to-transparent"
