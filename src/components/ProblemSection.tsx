@@ -23,7 +23,7 @@ export function ProblemSection() {
       <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
         <div className="max-w-2xl">
           <p className="text-xs uppercase tracking-[0.22em] text-[var(--color-accent-deep)]">
-            Perché Core Studio
+            Perché FLOW
           </p>
           <h2 className="mt-3 font-display text-3xl leading-tight tracking-tight sm:text-4xl lg:text-5xl">
             Non ti serve un'altra palestra piena e caotica.

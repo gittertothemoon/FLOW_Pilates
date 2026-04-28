@@ -39,9 +39,9 @@ export function SolutionSection() {
               Un lavoro più preciso.
             </h2>
             <p className="mt-5 text-base leading-relaxed text-[var(--color-muted)] sm:text-lg">
-              Core Studio nasce con un'idea semplice: meno persone per sessione,
-              più qualità in ogni movimento. Un percorso costruito sulla
-              tecnica, sulla progressione e sul rispetto del tuo corpo.
+              FLOW nasce con un'idea semplice: meno persone per sessione, più
+              qualità in ogni movimento. Un percorso costruito sulla tecnica,
+              sulla progressione e sul rispetto del tuo corpo.
             </p>
           </div>
 

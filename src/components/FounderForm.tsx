@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 
-const STORAGE_KEY = "core_studio_founder_leads_v1";
+const STORAGE_KEY = "flow_pilates_founder_leads_v1";
 
 const goals = [
   "postura",
@@ -127,7 +127,7 @@ export function FounderForm() {
       console.warn("Impossibile salvare il lead in localStorage", err);
     }
 
-    console.log("[Core Studio] Founder lead:", lead);
+    console.log("[FLOW] Founder lead:", lead);
 
     setSubmitted(true);
     setState(initialState);
@@ -149,9 +149,9 @@ export function FounderForm() {
               Entra nella lista founder
             </h2>
             <p className="mt-5 text-base leading-relaxed text-[var(--color-muted)] sm:text-lg">
-              Stiamo raccogliendo le prime adesioni per capire quante persone
-              sono realmente interessate a uno studio Pilates Reformer a
-              San Giorgio di Piano.
+              FLOW sta raccogliendo le prime adesioni per capire quante
+              persone sono realmente interessate a uno studio Pilates
+              Reformer a San Giorgio di Piano.
             </p>
 
             <ul className="mt-8 space-y-3">
@@ -185,8 +185,9 @@ export function FounderForm() {
                     Grazie, sei nella lista prioritaria.
                   </h3>
                   <p className="text-base leading-relaxed text-[var(--color-muted)]">
-                    Ti ricontatteremo appena apriremo le prime prove founder.
-                    Nel frattempo conserviamo il tuo posto in priorità.
+                    Ti ricontatteremo appena FLOW aprirà le prime prove
+                    founder. Nel frattempo conserviamo il tuo posto in
+                    priorità.
                   </p>
                   <button
                     type="button"
@@ -314,7 +315,7 @@ export function FounderForm() {
                       />
                       <span className="leading-relaxed">
                         Accetto di essere ricontattato/a per ricevere
-                        informazioni sul progetto Core Studio San Giorgio.
+                        informazioni sul progetto FLOW Pilates Studio.
                       </span>
                     </label>
                     {errors.consent && (

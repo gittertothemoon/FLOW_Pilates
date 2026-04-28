@@ -9,8 +9,11 @@ export function HeroSection() {
               In apertura a San Giorgio di Piano
             </span>
 
-            <h1 className="mt-6 font-display text-4xl leading-[1.1] tracking-tight text-[var(--color-ink)] sm:text-5xl lg:text-6xl">
-              Pilates Reformer a San Giorgio di Piano.
+            <p className="mt-6 text-sm uppercase tracking-[0.32em] text-[var(--color-accent-deep)]">
+              FLOW · Pilates Studio
+            </p>
+            <h1 className="mt-3 font-display text-4xl leading-[1.1] tracking-tight text-[var(--color-ink)] sm:text-5xl lg:text-6xl">
+              Pilates Reformer a San Giorgio di Piano con FLOW.
               <span className="block text-[var(--color-accent-deep)]">
                 In piccoli gruppi, con metodo.
               </span>

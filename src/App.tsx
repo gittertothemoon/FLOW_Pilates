@@ -15,12 +15,12 @@ function Header() {
         <a href="#top" className="flex items-center gap-2">
           <span
             aria-hidden="true"
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--color-ink)] text-xs font-medium text-[var(--color-bg)]"
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--color-ink)] text-[10px] font-semibold tracking-[0.16em] text-[var(--color-bg)]"
           >
-            CS
+            FL
           </span>
-          <span className="font-display text-lg leading-none text-[var(--color-ink)]">
-            Core Studio
+          <span className="font-display text-lg leading-none text-[var(--color-ink)] tracking-[0.18em]">
+            FLOW
           </span>
         </a>
         <nav className="hidden items-center gap-7 text-sm text-[var(--color-muted)] md:flex">
