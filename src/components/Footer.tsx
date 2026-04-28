@@ -5,10 +5,14 @@ export function Footer() {
       <div className="mx-auto max-w-[1400px] px-6 py-14 sm:px-10 sm:py-16 lg:px-16">
         <div className="flex flex-col gap-10 border-t border-[var(--color-cream)]/10 pt-12 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="font-display text-3xl tracking-[0.18em] text-[var(--color-cream-bright)] sm:text-4xl">
-              FLOW
-            </p>
-            <p className="mt-3 max-w-sm text-sm leading-relaxed text-[var(--color-cream)]/55">
+            <img
+              src="/logo.png"
+              alt="FLOW Pilates Studio"
+              loading="lazy"
+              className="h-8 w-auto select-none"
+              style={{ filter: "brightness(0) invert(1)" }}
+            />
+            <p className="mt-4 max-w-sm text-sm leading-relaxed text-[var(--color-cream)]/55">
               Pilates Reformer Studio · progetto in fase di validazione
             </p>
           </div>

@@ -30,9 +30,12 @@ export function HeroSection() {
           </Reveal>
 
           <Reveal delay={120}>
-            <p className="mt-10 text-[11px] uppercase tracking-[0.4em] text-[var(--color-accent)]">
-              FLOW · Pilates Studio
-            </p>
+            <img
+              src="/logo.png"
+              alt="FLOW Pilates Studio"
+              className="mt-10 h-16 w-auto select-none sm:h-20"
+              style={{ filter: "brightness(0) invert(1)" }}
+            />
           </Reveal>
 
           <Reveal delay={200}>

@@ -32,10 +32,14 @@ function Header() {
         <a
           href="#top"
           className="flex items-center gap-3 text-[var(--color-cream-bright)]"
+          aria-label="FLOW Pilates Studio"
         >
-          <span className="font-display text-xl font-medium tracking-[0.32em]">
-            FLOW
-          </span>
+          <img
+            src="/logo.png"
+            alt="FLOW Pilates Studio"
+            className="h-10 w-auto select-none"
+            style={{ filter: "brightness(0) invert(1)" }}
+          />
         </a>
         <nav className="hidden items-center gap-10 text-[12px] uppercase tracking-[0.22em] text-[var(--color-cream)]/70 md:flex">
           <a
