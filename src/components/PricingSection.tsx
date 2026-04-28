@@ -1,3 +1,5 @@
+import { Reveal } from "./Reveal";
+
 const tiers = [
   {
     name: "Prova introduttiva",
@@ -21,70 +23,112 @@ const tiers = [
 
 export function PricingSection() {
   return (
-    <section className="bg-[var(--color-bg-soft)]">
-      <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
-        <div className="max-w-2xl">
-          <p className="text-xs uppercase tracking-[0.22em] text-[var(--color-accent-deep)]">
-            Listino
-          </p>
-          <h2 className="mt-3 font-display text-3xl leading-tight tracking-tight sm:text-4xl lg:text-5xl">
-            Prezzi founder in fase di definizione
-          </h2>
-          <p className="mt-5 text-base leading-relaxed text-[var(--color-muted)] sm:text-lg">
-            Stiamo costruendo un listino sostenibile e trasparente. Le tariffe
-            qui sotto sono indicative: i prezzi definitivi saranno comunicati
-            in anteprima alla lista prioritaria.
-          </p>
+    <section className="bg-[var(--color-bg)] text-[var(--color-ink)]">
+      <div className="mx-auto max-w-[1400px] px-6 py-24 sm:px-10 sm:py-32 lg:px-16 lg:py-36">
+        <div className="max-w-3xl">
+          <Reveal>
+            <div className="flex items-center gap-4">
+              <span className="section-number text-3xl">06</span>
+              <span className="h-px flex-1 max-w-16 bg-[var(--color-accent)]/40" />
+              <span className="text-[11px] uppercase tracking-[0.28em] text-[var(--color-muted)]">
+                Listino
+              </span>
+            </div>
+          </Reveal>
+          <Reveal delay={120}>
+            <h2
+              className="mt-8 font-display font-medium leading-[1.05] tracking-[-0.02em]"
+              style={{ fontSize: "clamp(2rem, 4.5vw, 3.75rem)" }}
+            >
+              Prezzi founder
+              <span className="block italic text-[var(--color-accent-deep)]">
+                in fase di definizione
+              </span>
+            </h2>
+          </Reveal>
+          <Reveal delay={220}>
+            <p className="mt-6 max-w-2xl text-base leading-relaxed text-[var(--color-muted)] sm:text-lg">
+              Stiamo costruendo un listino sostenibile e trasparente. Le
+              tariffe qui sotto sono indicative: i prezzi definitivi saranno
+              comunicati in anteprima alla lista prioritaria.
+            </p>
+          </Reveal>
         </div>
 
-        <div className="mt-12 grid gap-5 lg:grid-cols-3">
-          {tiers.map((t) => (
-            <div
-              key={t.name}
-              className={[
-                "flex flex-col rounded-[var(--radius-card)] border p-7 transition sm:p-8",
-                t.highlight
-                  ? "border-[var(--color-accent)] bg-[var(--color-ink)] text-white shadow-[var(--shadow-lift)]"
-                  : "border-[var(--color-line)] bg-white text-[var(--color-ink)] shadow-[var(--shadow-soft)]",
-              ].join(" ")}
-            >
-              {t.highlight && (
-                <span className="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-[var(--color-accent)]/15 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-[var(--color-accent-soft)]">
-                  Founder
-                </span>
-              )}
-              <h3
+        <div className="mt-16 grid gap-6 lg:grid-cols-3 lg:items-stretch">
+          {tiers.map((t, i) => (
+            <Reveal key={t.name} delay={100 + i * 100}>
+              <div
                 className={[
-                  "font-display text-xl",
-                  t.highlight ? "text-white" : "text-[var(--color-ink)]",
+                  "relative flex h-full flex-col rounded-[var(--radius-card)] p-8 transition sm:p-10",
+                  t.highlight
+                    ? "bg-[var(--color-dark)] text-[var(--color-cream)] shadow-[var(--shadow-glow)] lg:-translate-y-4 lg:scale-[1.02]"
+                    : "border border-[var(--color-line-light)] bg-white text-[var(--color-ink)] shadow-[var(--shadow-soft)] hover:-translate-y-1 hover:shadow-[var(--shadow-lift)]",
                 ].join(" ")}
               >
-                {t.name}
-              </h3>
-              <p
-                className={[
-                  "mt-3 font-display text-2xl",
-                  t.highlight ? "text-white" : "text-[var(--color-accent-deep)]",
-                ].join(" ")}
-              >
-                {t.price}
-              </p>
-              <p
-                className={[
-                  "mt-3 text-sm leading-relaxed",
-                  t.highlight ? "text-white/75" : "text-[var(--color-muted)]",
-                ].join(" ")}
-              >
-                {t.description}
-              </p>
-            </div>
+                {t.highlight && (
+                  <span className="absolute -top-3 left-8 inline-flex items-center gap-2 rounded-full bg-[var(--color-accent)] px-4 py-1.5 text-[10px] font-medium uppercase tracking-[0.22em] text-[var(--color-dark)]">
+                    Founder
+                  </span>
+                )}
+
+                <div className="flex items-baseline justify-between">
+                  <span className="font-display text-xs italic text-[var(--color-accent)]">
+                    0{i + 1}
+                  </span>
+                  {t.highlight && (
+                    <span className="text-[10px] uppercase tracking-[0.22em] text-[var(--color-accent-soft)]">
+                      Più scelto
+                    </span>
+                  )}
+                </div>
+
+                <h3
+                  className={[
+                    "mt-6 font-display font-medium leading-tight",
+                    t.highlight ? "text-[var(--color-cream-bright)]" : "text-[var(--color-ink)]",
+                  ].join(" ")}
+                  style={{ fontSize: "clamp(1.5rem, 2.4vw, 1.875rem)" }}
+                >
+                  {t.name}
+                </h3>
+
+                <p
+                  className={[
+                    "mt-6 font-display italic",
+                    t.highlight ? "text-[var(--color-accent-soft)]" : "text-[var(--color-accent-deep)]",
+                  ].join(" ")}
+                  style={{ fontSize: "clamp(1.25rem, 2vw, 1.625rem)" }}
+                >
+                  {t.price}
+                </p>
+
+                <div
+                  className={[
+                    "mt-6 h-px w-12",
+                    t.highlight ? "bg-[var(--color-accent)]/50" : "bg-[var(--color-line-light)]",
+                  ].join(" ")}
+                />
+
+                <p
+                  className={[
+                    "mt-6 text-[14px] leading-relaxed",
+                    t.highlight ? "text-[var(--color-cream)]/70" : "text-[var(--color-muted)]",
+                  ].join(" ")}
+                >
+                  {t.description}
+                </p>
+              </div>
+            </Reveal>
           ))}
         </div>
 
-        <p className="mt-8 max-w-2xl text-sm leading-relaxed text-[var(--color-muted)]">
-          I prezzi definitivi saranno comunicati solo agli iscritti alla lista
-          prioritaria prima dell'apertura.
-        </p>
+        <Reveal delay={400}>
+          <p className="mt-12 max-w-2xl text-sm leading-relaxed text-[var(--color-muted)]">
+            I prezzi definitivi saranno comunicati solo agli iscritti alla
+            lista prioritaria prima dell'apertura.
+          </p>
+        </Reveal>
       </div>
     </section>
   );

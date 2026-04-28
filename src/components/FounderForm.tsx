@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import { Reveal } from "./Reveal";
 
 const STORAGE_KEY = "flow_pilates_founder_leads_v1";
 
@@ -137,208 +138,260 @@ export function FounderForm() {
   return (
     <section
       id="founder-list"
-      className="bg-[var(--color-bg)] scroll-mt-12"
+      className="dark-section-gradient grain relative scroll-mt-20 overflow-hidden text-[var(--color-cream)]"
     >
-      <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
-        <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
-          <div className="lg:col-span-5">
-            <p className="text-xs uppercase tracking-[0.22em] text-[var(--color-accent-deep)]">
-              Lista founder
-            </p>
-            <h2 className="mt-3 font-display text-3xl leading-tight tracking-tight sm:text-4xl lg:text-5xl">
-              Entra nella lista founder
-            </h2>
-            <p className="mt-5 text-base leading-relaxed text-[var(--color-muted)] sm:text-lg">
-              FLOW sta raccogliendo le prime adesioni per capire quante
-              persone sono realmente interessate a uno studio Pilates
-              Reformer a San Giorgio di Piano.
-            </p>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-10 top-20 hidden text-[200px] font-display italic leading-none text-[var(--color-cream)]/[0.03] sm:block lg:text-[280px]"
+      >
+        05
+      </div>
 
-            <ul className="mt-8 space-y-3">
-              {benefitsList.map((b) => (
-                <li
-                  key={b}
-                  className="flex items-start gap-3 text-sm text-[var(--color-ink)]"
-                >
-                  <span
-                    className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[var(--color-accent)]"
-                    aria-hidden="true"
-                  />
-                  <span>{b}</span>
-                </li>
-              ))}
-            </ul>
+      <div className="relative mx-auto max-w-[1400px] px-6 py-24 sm:px-10 sm:py-32 lg:px-16 lg:py-36">
+        <div className="grid gap-16 lg:grid-cols-12 lg:gap-20">
+          <div className="lg:col-span-5">
+            <Reveal>
+              <div className="flex items-center gap-4">
+                <span className="section-number text-3xl">05</span>
+                <span className="h-px flex-1 max-w-16 bg-[var(--color-accent)]/40" />
+                <span className="text-[11px] uppercase tracking-[0.28em] text-[var(--color-muted-dark)]">
+                  Lista founder
+                </span>
+              </div>
+            </Reveal>
+            <Reveal delay={120}>
+              <h2
+                className="mt-8 font-display font-medium leading-[1.0] tracking-[-0.02em] text-[var(--color-cream-bright)]"
+                style={{ fontSize: "clamp(2.25rem, 5vw, 4.5rem)" }}
+              >
+                Entra nella
+                <span className="block italic text-[var(--color-accent-soft)]">
+                  lista founder
+                </span>
+              </h2>
+            </Reveal>
+            <Reveal delay={220}>
+              <p className="mt-8 max-w-xl text-base leading-relaxed text-[var(--color-cream)]/70 sm:text-lg">
+                FLOW sta raccogliendo le prime adesioni per capire quante
+                persone sono realmente interessate a uno studio Pilates
+                Reformer a San Giorgio di Piano.
+              </p>
+            </Reveal>
+
+            <Reveal delay={320}>
+              <ul className="mt-10 space-y-4">
+                {benefitsList.map((b) => (
+                  <li
+                    key={b}
+                    className="flex items-start gap-4 text-[15px] text-[var(--color-cream)]/85"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="mt-1.5 flex h-4 w-4 flex-shrink-0 items-center justify-center"
+                    >
+                      <svg
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        className="h-full w-full"
+                      >
+                        <path
+                          d="M3 8.5l3 3 7-7"
+                          stroke="#c49a6c"
+                          strokeWidth="1.6"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
           </div>
 
           <div className="lg:col-span-7">
-            <div className="rounded-[var(--radius-card)] border border-[var(--color-line)] bg-white p-6 shadow-[var(--shadow-lift)] sm:p-10">
-              {submitted ? (
-                <div
-                  role="status"
-                  aria-live="polite"
-                  className="flex flex-col items-start gap-4 py-6"
-                >
-                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-accent)]/15 text-2xl text-[var(--color-accent-deep)]">
-                    ✓
-                  </span>
-                  <h3 className="font-display text-2xl text-[var(--color-ink)] sm:text-3xl">
-                    Grazie, sei nella lista prioritaria.
-                  </h3>
-                  <p className="text-base leading-relaxed text-[var(--color-muted)]">
-                    Ti ricontatteremo appena FLOW aprirà le prime prove
-                    founder. Nel frattempo conserviamo il tuo posto in
-                    priorità.
-                  </p>
-                  <button
-                    type="button"
-                    onClick={() => setSubmitted(false)}
-                    className="mt-2 text-sm font-medium text-[var(--color-accent-deep)] underline-offset-4 hover:underline"
+            <Reveal delay={200}>
+              <div
+                className="relative rounded-[28px] border border-[var(--color-cream)]/10 bg-[var(--color-cream)]/[0.02] p-7 backdrop-blur-md sm:p-12"
+                style={{
+                  boxShadow:
+                    "inset 0 1px 0 rgba(245,240,232,0.06), 0 30px 80px rgba(0,0,0,0.4)",
+                }}
+              >
+                {submitted ? (
+                  <div
+                    role="status"
+                    aria-live="polite"
+                    className="flex flex-col items-start gap-5 py-8"
                   >
-                    Iscrivi un'altra persona
-                  </button>
-                </div>
-              ) : (
-                <form
-                  onSubmit={handleSubmit}
-                  noValidate
-                  className="grid gap-5 sm:grid-cols-2"
-                >
-                  <Field
-                    label="Nome"
-                    error={errors.name}
-                    className="sm:col-span-1"
-                  >
-                    <input
-                      type="text"
-                      autoComplete="given-name"
-                      value={state.name}
-                      onChange={(e) => update("name", e.target.value)}
-                      className={inputClass(!!errors.name)}
-                      placeholder="Il tuo nome"
-                    />
-                  </Field>
-
-                  <Field
-                    label="Email"
-                    error={errors.email}
-                    className="sm:col-span-1"
-                  >
-                    <input
-                      type="email"
-                      autoComplete="email"
-                      value={state.email}
-                      onChange={(e) => update("email", e.target.value)}
-                      className={inputClass(!!errors.email)}
-                      placeholder="nome@esempio.it"
-                    />
-                  </Field>
-
-                  <Field
-                    label="Telefono / WhatsApp"
-                    error={errors.phone}
-                    className="sm:col-span-1"
-                  >
-                    <input
-                      type="tel"
-                      autoComplete="tel"
-                      value={state.phone}
-                      onChange={(e) => update("phone", e.target.value)}
-                      className={inputClass(!!errors.phone)}
-                      placeholder="+39 ..."
-                    />
-                  </Field>
-
-                  <Field
-                    label="Comune"
-                    error={errors.city}
-                    className="sm:col-span-1"
-                  >
-                    <input
-                      type="text"
-                      autoComplete="address-level2"
-                      value={state.city}
-                      onChange={(e) => update("city", e.target.value)}
-                      className={inputClass(!!errors.city)}
-                      placeholder="San Giorgio di Piano, Funo, ..."
-                    />
-                  </Field>
-
-                  <Field
-                    label="Obiettivo principale"
-                    error={errors.goal}
-                    className="sm:col-span-1"
-                  >
-                    <select
-                      value={state.goal}
-                      onChange={(e) => update("goal", e.target.value)}
-                      className={selectClass(!!errors.goal)}
+                    <span className="inline-flex h-14 w-14 items-center justify-center rounded-full border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10 text-2xl text-[var(--color-accent-soft)]">
+                      ✓
+                    </span>
+                    <h3
+                      className="font-display font-medium text-[var(--color-cream-bright)]"
+                      style={{ fontSize: "clamp(1.75rem, 3vw, 2.5rem)" }}
                     >
-                      <option value="" disabled>
-                        Seleziona un obiettivo
-                      </option>
-                      {goals.map((g) => (
-                        <option key={g} value={g}>
-                          {g}
-                        </option>
-                      ))}
-                    </select>
-                  </Field>
-
-                  <Field
-                    label="Frequenza desiderata"
-                    error={errors.frequency}
-                    className="sm:col-span-1"
-                  >
-                    <select
-                      value={state.frequency}
-                      onChange={(e) => update("frequency", e.target.value)}
-                      className={selectClass(!!errors.frequency)}
-                    >
-                      <option value="" disabled>
-                        Seleziona una frequenza
-                      </option>
-                      {frequencies.map((f) => (
-                        <option key={f} value={f}>
-                          {f}
-                        </option>
-                      ))}
-                    </select>
-                  </Field>
-
-                  <div className="sm:col-span-2">
-                    <label className="flex items-start gap-3 text-sm text-[var(--color-ink)]">
-                      <input
-                        type="checkbox"
-                        checked={state.consent}
-                        onChange={(e) => update("consent", e.target.checked)}
-                        className="mt-1 h-4 w-4 flex-shrink-0 rounded border-[var(--color-line)] accent-[var(--color-accent-deep)]"
-                      />
-                      <span className="leading-relaxed">
-                        Accetto di essere ricontattato/a per ricevere
-                        informazioni sul progetto FLOW Pilates Studio.
+                      Grazie, sei nella
+                      <span className="italic text-[var(--color-accent-soft)]">
+                        {" "}
+                        lista prioritaria.
                       </span>
-                    </label>
-                    {errors.consent && (
-                      <p className="mt-2 text-xs text-[#a64a2c]">
-                        {errors.consent}
-                      </p>
-                    )}
-                  </div>
-
-                  <div className="sm:col-span-2">
-                    <button
-                      type="submit"
-                      className="inline-flex w-full items-center justify-center rounded-full bg-[var(--color-ink)] px-7 py-3.5 text-sm font-medium text-white transition hover:bg-[var(--color-accent-deep)] sm:w-auto"
-                    >
-                      Voglio ricevere l'accesso founder
-                    </button>
-                    <p className="mt-3 text-xs text-[var(--color-muted)]">
-                      Iscrizione gratuita. Nessun obbligo di acquisto.
+                    </h3>
+                    <p className="max-w-md text-base leading-relaxed text-[var(--color-cream)]/70">
+                      Ti ricontatteremo appena FLOW aprirà le prime prove
+                      founder. Nel frattempo conserviamo il tuo posto in
+                      priorità.
                     </p>
+                    <button
+                      type="button"
+                      onClick={() => setSubmitted(false)}
+                      className="mt-2 text-sm font-medium text-[var(--color-accent-soft)] underline-offset-4 transition hover:underline"
+                    >
+                      Iscrivi un'altra persona →
+                    </button>
                   </div>
-                </form>
-              )}
-            </div>
+                ) : (
+                  <form
+                    onSubmit={handleSubmit}
+                    noValidate
+                    className="grid gap-7 sm:grid-cols-2 sm:gap-x-10"
+                  >
+                    <Field label="Nome" error={errors.name}>
+                      <input
+                        type="text"
+                        autoComplete="given-name"
+                        value={state.name}
+                        onChange={(e) => update("name", e.target.value)}
+                        className={`input-underline ${errors.name ? "invalid" : ""}`}
+                        placeholder="Il tuo nome"
+                      />
+                    </Field>
+
+                    <Field label="Email" error={errors.email}>
+                      <input
+                        type="email"
+                        autoComplete="email"
+                        value={state.email}
+                        onChange={(e) => update("email", e.target.value)}
+                        className={`input-underline ${errors.email ? "invalid" : ""}`}
+                        placeholder="nome@esempio.it"
+                      />
+                    </Field>
+
+                    <Field label="Telefono / WhatsApp" error={errors.phone}>
+                      <input
+                        type="tel"
+                        autoComplete="tel"
+                        value={state.phone}
+                        onChange={(e) => update("phone", e.target.value)}
+                        className={`input-underline ${errors.phone ? "invalid" : ""}`}
+                        placeholder="+39 ..."
+                      />
+                    </Field>
+
+                    <Field label="Comune" error={errors.city}>
+                      <input
+                        type="text"
+                        autoComplete="address-level2"
+                        value={state.city}
+                        onChange={(e) => update("city", e.target.value)}
+                        className={`input-underline ${errors.city ? "invalid" : ""}`}
+                        placeholder="San Giorgio di Piano, Funo, ..."
+                      />
+                    </Field>
+
+                    <Field label="Obiettivo principale" error={errors.goal}>
+                      <select
+                        value={state.goal}
+                        onChange={(e) => update("goal", e.target.value)}
+                        className={`input-underline appearance-none ${errors.goal ? "invalid" : ""}`}
+                        style={{
+                          backgroundImage:
+                            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23c49a6c'><path d='M5.25 7.5L10 12.25 14.75 7.5z'/></svg>\")",
+                          backgroundRepeat: "no-repeat",
+                          backgroundPosition: "right 0 center",
+                          backgroundSize: "14px",
+                          paddingRight: "1.75rem",
+                        }}
+                      >
+                        <option value="" disabled style={{ background: "#1a1a1a" }}>
+                          Seleziona un obiettivo
+                        </option>
+                        {goals.map((g) => (
+                          <option key={g} value={g} style={{ background: "#1a1a1a" }}>
+                            {g}
+                          </option>
+                        ))}
+                      </select>
+                    </Field>
+
+                    <Field label="Frequenza desiderata" error={errors.frequency}>
+                      <select
+                        value={state.frequency}
+                        onChange={(e) => update("frequency", e.target.value)}
+                        className={`input-underline appearance-none ${errors.frequency ? "invalid" : ""}`}
+                        style={{
+                          backgroundImage:
+                            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23c49a6c'><path d='M5.25 7.5L10 12.25 14.75 7.5z'/></svg>\")",
+                          backgroundRepeat: "no-repeat",
+                          backgroundPosition: "right 0 center",
+                          backgroundSize: "14px",
+                          paddingRight: "1.75rem",
+                        }}
+                      >
+                        <option value="" disabled style={{ background: "#1a1a1a" }}>
+                          Seleziona una frequenza
+                        </option>
+                        {frequencies.map((f) => (
+                          <option key={f} value={f} style={{ background: "#1a1a1a" }}>
+                            {f}
+                          </option>
+                        ))}
+                      </select>
+                    </Field>
+
+                    <div className="sm:col-span-2">
+                      <label className="flex items-start gap-3 text-sm text-[var(--color-cream)]/80">
+                        <input
+                          type="checkbox"
+                          checked={state.consent}
+                          onChange={(e) => update("consent", e.target.checked)}
+                          className="mt-1 h-4 w-4 flex-shrink-0 accent-[var(--color-accent)]"
+                        />
+                        <span className="leading-relaxed">
+                          Accetto di essere ricontattato/a per ricevere
+                          informazioni sul progetto FLOW Pilates Studio.
+                        </span>
+                      </label>
+                      {errors.consent && (
+                        <p className="mt-2 text-xs text-[#e0a48a]">
+                          {errors.consent}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="sm:col-span-2 sm:mt-2">
+                      <button
+                        type="submit"
+                        className="group inline-flex w-full items-center justify-center gap-3 rounded-full bg-[var(--color-accent)] px-8 py-4 text-sm font-medium tracking-wide text-[var(--color-dark)] transition hover:bg-[var(--color-accent-soft)] sm:w-auto"
+                      >
+                        Voglio ricevere l'accesso founder
+                        <span
+                          aria-hidden="true"
+                          className="transition-transform group-hover:translate-x-0.5"
+                        >
+                          →
+                        </span>
+                      </button>
+                      <p className="mt-4 text-xs uppercase tracking-[0.18em] text-[var(--color-cream)]/45">
+                        Iscrizione gratuita · Nessun obbligo di acquisto
+                      </p>
+                    </div>
+                  </form>
+                )}
+              </div>
+            </Reveal>
           </div>
         </div>
       </div>
@@ -349,35 +402,21 @@ export function FounderForm() {
 function Field({
   label,
   error,
-  className = "",
   children,
 }: {
   label: string;
   error?: string;
-  className?: string;
   children: React.ReactNode;
 }) {
   return (
-    <label className={`block ${className}`}>
-      <span className="mb-2 block text-xs font-medium uppercase tracking-[0.14em] text-[var(--color-muted)]">
+    <label className="block">
+      <span className="mb-1 block text-[10px] font-medium uppercase tracking-[0.22em] text-[var(--color-cream)]/55">
         {label}
       </span>
       {children}
-      {error && <p className="mt-1.5 text-xs text-[#a64a2c]">{error}</p>}
+      {error && (
+        <p className="mt-2 text-xs text-[#e0a48a]">{error}</p>
+      )}
     </label>
   );
-}
-
-function inputClass(invalid: boolean) {
-  return [
-    "block w-full rounded-xl border bg-[var(--color-bg-soft)] px-4 py-3 text-sm text-[var(--color-ink)] outline-none transition",
-    "placeholder:text-[var(--color-muted)]/70",
-    invalid
-      ? "border-[#d49377] focus:border-[#a64a2c]"
-      : "border-[var(--color-line)] focus:border-[var(--color-accent)] focus:bg-white",
-  ].join(" ");
-}
-
-function selectClass(invalid: boolean) {
-  return `${inputClass(invalid)} pr-10 appearance-none bg-[length:14px] bg-no-repeat bg-[right_1rem_center] bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%236f6a63%22><path d=%22M5.25 7.5L10 12.25 14.75 7.5z%22/></svg>')]`;
 }

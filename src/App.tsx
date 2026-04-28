@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { HeroSection } from "./components/HeroSection";
 import { ProblemSection } from "./components/ProblemSection";
 import { SolutionSection } from "./components/SolutionSection";
@@ -9,31 +10,50 @@ import { FinalCTA } from "./components/FinalCTA";
 import { Footer } from "./components/Footer";
 
 function Header() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-30 border-b border-[var(--color-line)]/60 bg-[var(--color-bg)]/85 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <a href="#top" className="flex items-center gap-2">
-          <span
-            aria-hidden="true"
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--color-ink)] text-[10px] font-semibold tracking-[0.16em] text-[var(--color-bg)]"
-          >
-            FL
-          </span>
-          <span className="font-display text-lg leading-none text-[var(--color-ink)] tracking-[0.18em]">
+    <header
+      className={[
+        "fixed inset-x-0 top-0 z-40 transition-all duration-300",
+        scrolled
+          ? "border-b border-[var(--color-cream)]/10 bg-[var(--color-dark)]/85 backdrop-blur-md"
+          : "bg-transparent",
+      ].join(" ")}
+    >
+      <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-5 sm:px-10 lg:px-16">
+        <a
+          href="#top"
+          className="flex items-center gap-3 text-[var(--color-cream-bright)]"
+        >
+          <span className="font-display text-xl font-medium tracking-[0.32em]">
             FLOW
           </span>
         </a>
-        <nav className="hidden items-center gap-7 text-sm text-[var(--color-muted)] md:flex">
-          <a className="transition hover:text-[var(--color-ink)]" href="#metodo">
+        <nav className="hidden items-center gap-10 text-[12px] uppercase tracking-[0.22em] text-[var(--color-cream)]/70 md:flex">
+          <a
+            className="transition hover:text-[var(--color-accent-soft)]"
+            href="#metodo"
+          >
             Metodo
           </a>
-          <a className="transition hover:text-[var(--color-ink)]" href="#founder-list">
+          <a
+            className="transition hover:text-[var(--color-accent-soft)]"
+            href="#founder-list"
+          >
             Lista founder
           </a>
         </nav>
         <a
           href="#founder-list"
-          className="inline-flex items-center justify-center rounded-full bg-[var(--color-ink)] px-4 py-2 text-xs font-medium text-white transition hover:bg-[var(--color-accent-deep)] sm:px-5 sm:text-sm"
+          className="inline-flex items-center justify-center gap-2 rounded-full border border-[var(--color-cream)]/25 px-5 py-2.5 text-[11px] font-medium uppercase tracking-[0.2em] text-[var(--color-cream)] transition hover:border-[var(--color-accent)] hover:text-[var(--color-accent-soft)] sm:px-6"
         >
           Entra in lista
         </a>
@@ -44,7 +64,7 @@ function Header() {
 
 function App() {
   return (
-    <div id="top" className="min-h-screen bg-[var(--color-bg)]">
+    <div id="top" className="bg-[var(--color-dark)]">
       <Header />
       <main>
         <HeroSection />

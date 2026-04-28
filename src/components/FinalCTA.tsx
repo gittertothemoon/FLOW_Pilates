@@ -1,39 +1,58 @@
+import { Reveal } from "./Reveal";
+
 export function FinalCTA() {
   return (
-    <section className="bg-[var(--color-bg-soft)]">
-      <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
-        <div
-          className="relative overflow-hidden rounded-[var(--radius-card)] border border-[var(--color-line)] bg-[var(--color-ink)] px-6 py-16 text-center text-white shadow-[var(--shadow-lift)] sm:px-12 sm:py-20"
-        >
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(circle at 80% 0%, rgba(184,138,90,0.35) 0%, transparent 55%), radial-gradient(circle at 0% 100%, rgba(184,138,90,0.18) 0%, transparent 50%)",
-            }}
-          />
-          <div className="relative">
-            <p className="text-xs uppercase tracking-[0.22em] text-[var(--color-accent-soft)]">
-              Validazione del progetto
-            </p>
-            <h2 className="mx-auto mt-4 max-w-3xl font-display text-3xl leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
-              Vuoi uno studio Pilates Reformer a San Giorgio di Piano?
-            </h2>
-            <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-white/75 sm:text-lg">
-              Lascia il tuo contatto. Se la risposta del territorio sarà
-              forte, apriremo i primi posti founder.
-            </p>
-            <div className="mt-8 flex justify-center">
-              <a
-                href="#founder-list"
-                className="inline-flex items-center justify-center rounded-full bg-[var(--color-accent)] px-8 py-3.5 text-sm font-medium text-white transition hover:bg-[var(--color-accent-soft)]"
+    <section className="cta-gradient grain relative overflow-hidden text-[var(--color-cream)]">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-[var(--color-accent)]/40 to-transparent"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 text-[420px] font-display italic leading-none text-[var(--color-cream)]/[0.025] sm:block lg:text-[600px]"
+      >
+        08
+      </div>
+
+      <div className="relative mx-auto max-w-[1100px] px-6 py-28 text-center sm:px-10 sm:py-36 lg:px-16 lg:py-44">
+        <Reveal>
+          <p className="text-[11px] uppercase tracking-[0.32em] text-[var(--color-accent-soft)]">
+            Validazione del progetto
+          </p>
+        </Reveal>
+        <Reveal delay={120}>
+          <h2
+            className="mx-auto mt-8 max-w-4xl font-display font-medium leading-[1.0] tracking-[-0.025em] text-[var(--color-cream-bright)]"
+            style={{ fontSize: "clamp(2.5rem, 6.5vw, 5.5rem)" }}
+          >
+            Vuoi uno studio Pilates Reformer
+            <span className="block italic text-[var(--color-accent-soft)]">
+              a San Giorgio di Piano?
+            </span>
+          </h2>
+        </Reveal>
+        <Reveal delay={240}>
+          <p className="mx-auto mt-8 max-w-xl text-base leading-relaxed text-[var(--color-cream)]/70 sm:text-lg">
+            Lascia il tuo contatto. Se la risposta del territorio sarà forte,
+            apriremo i primi posti founder.
+          </p>
+        </Reveal>
+        <Reveal delay={360}>
+          <div className="mt-12 flex justify-center">
+            <a
+              href="#founder-list"
+              className="group inline-flex items-center justify-center gap-3 rounded-full bg-[var(--color-accent)] px-10 py-4 text-sm font-medium tracking-wide text-[var(--color-dark)] transition hover:bg-[var(--color-accent-soft)]"
+            >
+              Entra nella lista prioritaria
+              <span
+                aria-hidden="true"
+                className="transition-transform group-hover:translate-x-0.5"
               >
-                Entra nella lista prioritaria
-              </a>
-            </div>
+                →
+              </span>
+            </a>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
