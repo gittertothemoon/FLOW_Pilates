@@ -22,11 +22,12 @@ function Header() {
   return (
     <header
       className={[
-        "fixed inset-x-0 top-0 z-40 transition-all duration-300",
+        "fixed left-0 top-0 z-40 w-full transition-all duration-300",
         scrolled
           ? "border-b border-[var(--color-cream)]/10 bg-[var(--color-dark)]/85 backdrop-blur-md"
           : "bg-transparent",
       ].join(" ")}
+      style={{ transform: "translateZ(0)", WebkitTransform: "translateZ(0)" }}
     >
       <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-5 sm:px-10 lg:px-16">
         <a
