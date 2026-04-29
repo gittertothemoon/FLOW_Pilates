@@ -1,20 +1,31 @@
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useId, useState, type FormEvent, type ReactNode } from "react";
 import { Reveal } from "./Reveal";
 import { supabase, type FounderLeadInsert } from "../lib/supabase";
 
 const goals = [
-  "postura",
-  "tonificazione",
-  "mal di schiena / rigidità",
-  "rimettermi in forma",
-  "mobilità",
-  "curiosità / prova",
+  "Migliorare la postura",
+  "Tonificazione muscolare",
+  "Ridurre dolori alla schiena",
+  "Recupero post-infortunio",
+  "Flessibilità e mobilità",
+  "Benessere generale e relax",
+  "Preparazione atletica",
 ] as const;
 
 const frequencies = [
   "1 volta a settimana",
   "2 volte a settimana",
-  "più volte a settimana",
+  "3+ volte a settimana",
+  "Non sono ancora sicuro/a",
+] as const;
+
+const referrals = [
+  "Instagram",
+  "Facebook",
+  "Passaparola",
+  "Ricerca Google",
+  "Volantino/Manifesto",
+  "Altro",
 ] as const;
 
 type FormState = {
@@ -24,6 +35,7 @@ type FormState = {
   city: string;
   goal: string;
   frequency: string;
+  referral: string;
   consent: boolean;
 };
 
@@ -34,6 +46,7 @@ const initialState: FormState = {
   city: "",
   goal: "",
   frequency: "",
+  referral: "",
   consent: false,
 };
 
@@ -106,13 +119,14 @@ export function FounderForm() {
       return;
     }
 
-    const payload: FounderLeadInsert = {
+    const payload: FounderLeadInsert & { come_trovato: string | null } = {
       nome: state.name.trim(),
       email: state.email.trim().toLowerCase(),
       telefono: state.phone.trim() || null,
       comune: state.city.trim() || null,
       obiettivo: state.goal || null,
       frequenza: state.frequency || null,
+      come_trovato: state.referral || null,
     };
 
     setSubmitting(true);
@@ -123,7 +137,6 @@ export function FounderForm() {
     setSubmitting(false);
 
     if (error) {
-      // 23505 = unique_violation (duplicate email)
       if (error.code === "23505") {
         setErrors({ email: "Questa email è già registrata." });
         return;
@@ -141,9 +154,7 @@ export function FounderForm() {
   }
 
   return (
-    <section
-      className="dark-section-gradient grain relative overflow-hidden text-[var(--color-cream)]"
-    >
+    <section className="dark-section-gradient grain relative overflow-hidden text-[var(--color-cream)]">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -left-10 top-20 hidden text-[200px] font-display italic leading-none text-[var(--color-cream)]/[0.03] sm:block lg:text-[280px]"
@@ -193,11 +204,7 @@ export function FounderForm() {
                       aria-hidden="true"
                       className="mt-1.5 flex h-4 w-4 flex-shrink-0 items-center justify-center"
                     >
-                      <svg
-                        viewBox="0 0 16 16"
-                        fill="none"
-                        className="h-full w-full"
-                      >
+                      <svg viewBox="0 0 16 16" fill="none" className="h-full w-full">
                         <path
                           d="M3 8.5l3 3 7-7"
                           stroke="#c49a6c"
@@ -218,12 +225,17 @@ export function FounderForm() {
             <Reveal delay={200}>
               <div
                 id="founder-list"
-                className="relative scroll-mt-24 rounded-[28px] border border-[var(--color-cream)]/10 bg-[var(--color-cream)]/[0.02] p-6 backdrop-blur-md sm:p-10 lg:p-12"
+                className="relative scroll-mt-24 overflow-hidden rounded-[28px] border border-[var(--color-cream)]/10 bg-gradient-to-br from-[var(--color-dark)] via-[var(--color-dark-warm)]/85 to-[var(--color-dark)] p-6 backdrop-blur-md sm:p-10 lg:p-12"
                 style={{
                   boxShadow:
-                    "inset 0 1px 0 rgba(245,240,232,0.06), 0 30px 80px rgba(0,0,0,0.4)",
+                    "inset 0 1px 0 rgba(245,240,232,0.06), 0 30px 80px rgba(0,0,0,0.45)",
                 }}
               >
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -top-px left-10 right-10 h-px bg-gradient-to-r from-transparent via-[var(--color-accent)]/40 to-transparent"
+                />
+
                 {submitted ? (
                   <div
                     id="founder-success"
@@ -253,10 +265,7 @@ export function FounderForm() {
                       style={{ fontSize: "clamp(1.75rem, 3vw, 2.5rem)" }}
                     >
                       Sei nella
-                      <span className="italic text-[var(--color-accent-soft)]">
-                        {" "}
-                        lista prioritaria.
-                      </span>
+                      <span className="italic text-[var(--color-accent-soft)]"> lista prioritaria.</span>
                     </h3>
                     <p className="max-w-md text-base leading-relaxed text-[var(--color-cream)]/70">
                       Ti contatteremo presto: appena FLOW aprirà le prime prove
@@ -271,171 +280,150 @@ export function FounderForm() {
                     </button>
                   </div>
                 ) : (
-                  <form
-                    onSubmit={handleSubmit}
-                    noValidate
-                    className="grid gap-6 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-7"
-                  >
-                    <Field label="Nome" error={errors.name}>
-                      <input
+                  <>
+                    <div className="mb-8">
+                      <p className="text-[10px] uppercase tracking-[0.32em] text-[var(--color-accent-soft)]">
+                        Riserva il tuo posto
+                      </p>
+                      <h3
+                        className="mt-3 font-display font-medium leading-[1.05] text-[var(--color-cream-bright)]"
+                        style={{ fontSize: "clamp(1.5rem, 2.6vw, 2rem)" }}
+                      >
+                        Pochi dati,
+                        <span className="italic text-[var(--color-accent-soft)]"> nessun impegno.</span>
+                      </h3>
+                    </div>
+
+                    <form
+                      onSubmit={handleSubmit}
+                      noValidate
+                      className="grid gap-x-10 gap-y-2 sm:grid-cols-2"
+                    >
+                      <FloatingInput
+                        label="Nome"
                         type="text"
                         autoComplete="given-name"
                         value={state.name}
-                        onChange={(e) => update("name", e.target.value)}
-                        className={`input-underline ${errors.name ? "invalid" : ""}`}
-                        placeholder="Il tuo nome"
+                        onChange={(v) => update("name", v)}
+                        error={errors.name}
                       />
-                    </Field>
-
-                    <Field label="Email" error={errors.email}>
-                      <input
+                      <FloatingInput
+                        label="Email"
                         type="email"
                         autoComplete="email"
                         inputMode="email"
                         value={state.email}
-                        onChange={(e) => update("email", e.target.value)}
-                        className={`input-underline ${errors.email ? "invalid" : ""}`}
-                        placeholder="nome@esempio.it"
+                        onChange={(v) => update("email", v)}
+                        error={errors.email}
                       />
-                    </Field>
-
-                    <Field
-                      label="Telefono / WhatsApp (opzionale)"
-                      error={errors.phone}
-                    >
-                      <input
+                      <FloatingInput
+                        label="Telefono / WhatsApp (opzionale)"
                         type="tel"
                         autoComplete="tel"
                         inputMode="tel"
                         value={state.phone}
-                        onChange={(e) => update("phone", e.target.value)}
-                        className={`input-underline ${errors.phone ? "invalid" : ""}`}
-                        placeholder="+39 ..."
+                        onChange={(v) => update("phone", v)}
+                        error={errors.phone}
                       />
-                    </Field>
-
-                    <Field label="Comune (opzionale)" error={errors.city}>
-                      <input
+                      <FloatingInput
+                        label="Comune (opzionale)"
                         type="text"
                         autoComplete="address-level2"
                         value={state.city}
-                        onChange={(e) => update("city", e.target.value)}
-                        className={`input-underline ${errors.city ? "invalid" : ""}`}
-                        placeholder="San Giorgio di Piano, Funo, ..."
+                        onChange={(v) => update("city", v)}
+                        error={errors.city}
                       />
-                    </Field>
 
-                    <Field label="Obiettivo principale" error={errors.goal}>
-                      <select
+                      <FloatingSelect
+                        label="Obiettivo principale (opzionale)"
                         value={state.goal}
-                        onChange={(e) => update("goal", e.target.value)}
-                        className={`input-underline appearance-none ${errors.goal ? "invalid" : ""}`}
-                        style={{
-                          backgroundImage:
-                            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23c49a6c'><path d='M5.25 7.5L10 12.25 14.75 7.5z'/></svg>\")",
-                          backgroundRepeat: "no-repeat",
-                          backgroundPosition: "right 0 center",
-                          backgroundSize: "14px",
-                          paddingRight: "1.75rem",
-                        }}
-                      >
-                        <option value="" style={{ background: "#1a1a1a" }}>
-                          Seleziona (opzionale)
-                        </option>
-                        {goals.map((g) => (
-                          <option key={g} value={g} style={{ background: "#1a1a1a" }}>
-                            {g}
-                          </option>
-                        ))}
-                      </select>
-                    </Field>
-
-                    <Field label="Frequenza desiderata" error={errors.frequency}>
-                      <select
+                        onChange={(v) => update("goal", v)}
+                        options={goals}
+                      />
+                      <FloatingSelect
+                        label="Frequenza desiderata (opzionale)"
                         value={state.frequency}
-                        onChange={(e) => update("frequency", e.target.value)}
-                        className={`input-underline appearance-none ${errors.frequency ? "invalid" : ""}`}
-                        style={{
-                          backgroundImage:
-                            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23c49a6c'><path d='M5.25 7.5L10 12.25 14.75 7.5z'/></svg>\")",
-                          backgroundRepeat: "no-repeat",
-                          backgroundPosition: "right 0 center",
-                          backgroundSize: "14px",
-                          paddingRight: "1.75rem",
-                        }}
-                      >
-                        <option value="" style={{ background: "#1a1a1a" }}>
-                          Seleziona (opzionale)
-                        </option>
-                        {frequencies.map((f) => (
-                          <option key={f} value={f} style={{ background: "#1a1a1a" }}>
-                            {f}
-                          </option>
-                        ))}
-                      </select>
-                    </Field>
+                        onChange={(v) => update("frequency", v)}
+                        options={frequencies}
+                      />
 
-                    <div className="sm:col-span-2">
-                      <label className="flex items-start gap-3 text-sm text-[var(--color-cream)]/80">
-                        <input
-                          type="checkbox"
-                          checked={state.consent}
-                          onChange={(e) => update("consent", e.target.checked)}
-                          className="mt-1 h-4 w-4 flex-shrink-0 accent-[var(--color-accent)]"
+                      <div className="sm:col-span-2">
+                        <FloatingSelect
+                          label="Come ci hai trovato? (opzionale)"
+                          value={state.referral}
+                          onChange={(v) => update("referral", v)}
+                          options={referrals}
                         />
-                        <span className="leading-relaxed">
-                          Accetto di essere ricontattato/a per ricevere
-                          informazioni sul progetto FLOW Pilates Studio.
-                        </span>
-                      </label>
-                      {errors.consent && (
-                        <p className="mt-2 text-xs text-[#e0a48a]">
-                          {errors.consent}
-                        </p>
-                      )}
-                    </div>
-
-                    {submitError && (
-                      <div
-                        className="sm:col-span-2 rounded-md border border-[#e0a48a]/30 bg-[#e0a48a]/5 px-4 py-3 text-sm text-[#e0a48a]"
-                        role="alert"
-                      >
-                        {submitError}
                       </div>
-                    )}
 
-                    <div className="sm:col-span-2 sm:mt-2">
-                      <button
-                        type="submit"
-                        disabled={submitting}
-                        aria-busy={submitting}
-                        className="group inline-flex w-full items-center justify-center gap-3 rounded-full bg-[var(--color-accent)] px-8 py-4 text-sm font-medium tracking-wide text-[var(--color-dark)] transition hover:bg-[var(--color-accent-soft)] disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
-                      >
-                        {submitting ? (
-                          <>
-                            <span
-                              aria-hidden="true"
-                              className="h-4 w-4 animate-spin rounded-full border-2 border-[var(--color-dark)]/30 border-t-[var(--color-dark)]"
-                            />
-                            Invio in corso...
-                          </>
-                        ) : (
-                          <>
-                            Voglio ricevere l'accesso founder
-                            <span
-                              aria-hidden="true"
-                              className="transition-transform group-hover:translate-x-0.5"
-                            >
-                              →
-                            </span>
-                          </>
+                      <div className="mt-6 sm:col-span-2">
+                        <label className="flex items-start gap-3 text-sm text-[var(--color-cream)]/80">
+                          <input
+                            type="checkbox"
+                            checked={state.consent}
+                            onChange={(e) => update("consent", e.target.checked)}
+                            className="mt-1 h-4 w-4 flex-shrink-0 accent-[var(--color-accent)]"
+                          />
+                          <span className="leading-relaxed">
+                            Accetto di essere ricontattato/a per ricevere
+                            informazioni sul progetto FLOW Pilates Studio.
+                          </span>
+                        </label>
+                        {errors.consent && (
+                          <p className="mt-2 text-xs text-[#e0a48a]">
+                            {errors.consent}
+                          </p>
                         )}
-                      </button>
-                      <p className="mt-4 text-xs uppercase tracking-[0.18em] text-[var(--color-cream)]/45">
-                        Iscrizione gratuita · Nessun obbligo di acquisto
-                      </p>
-                    </div>
-                  </form>
+                      </div>
+
+                      {submitError && (
+                        <div
+                          className="sm:col-span-2 rounded-md border border-[#e0a48a]/30 bg-[#e0a48a]/5 px-4 py-3 text-sm text-[#e0a48a]"
+                          role="alert"
+                        >
+                          {submitError}
+                        </div>
+                      )}
+
+                      <div className="mt-6 sm:col-span-2">
+                        <button
+                          type="submit"
+                          disabled={submitting}
+                          aria-busy={submitting}
+                          className="group relative inline-flex w-full items-center justify-center gap-3 overflow-hidden rounded-full bg-[var(--color-accent)] px-8 py-4 text-sm font-medium tracking-wide text-[var(--color-dark)] transition disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
+                        >
+                          <span
+                            aria-hidden="true"
+                            className="absolute inset-0 origin-left scale-x-0 bg-[var(--color-accent-soft)] transition-transform duration-500 ease-out group-hover:scale-x-100"
+                          />
+                          <span className="relative inline-flex items-center gap-3">
+                            {submitting ? (
+                              <>
+                                <span
+                                  aria-hidden="true"
+                                  className="h-4 w-4 animate-spin rounded-full border-2 border-[var(--color-dark)]/30 border-t-[var(--color-dark)]"
+                                />
+                                Invio in corso...
+                              </>
+                            ) : (
+                              <>
+                                Voglio l'accesso founder
+                                <span
+                                  aria-hidden="true"
+                                  className="transition-transform duration-300 group-hover:translate-x-0.5"
+                                >
+                                  →
+                                </span>
+                              </>
+                            )}
+                          </span>
+                        </button>
+                        <p className="mt-4 text-xs uppercase tracking-[0.18em] text-[var(--color-cream)]/45">
+                          Iscrizione gratuita · Nessun obbligo di acquisto
+                        </p>
+                      </div>
+                    </form>
+                  </>
                 )}
               </div>
             </Reveal>
@@ -446,24 +434,98 @@ export function FounderForm() {
   );
 }
 
-function Field({
+type FloatingInputProps = {
+  label: string;
+  type: "text" | "email" | "tel";
+  value: string;
+  onChange: (v: string) => void;
+  error?: string;
+  autoComplete?: string;
+  inputMode?: "email" | "tel" | "text";
+};
+
+function FloatingInput({
   label,
+  type,
+  value,
+  onChange,
   error,
+  autoComplete,
+  inputMode,
+}: FloatingInputProps) {
+  const id = useId();
+  const filled = value.length > 0;
+  return (
+    <FieldShell id={id} label={label} filled={filled} error={error}>
+      <input
+        id={id}
+        type={type}
+        autoComplete={autoComplete}
+        inputMode={inputMode}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className={`input-underline ${error ? "invalid" : ""}`}
+        placeholder=" "
+      />
+    </FieldShell>
+  );
+}
+
+type FloatingSelectProps = {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  options: ReadonlyArray<string>;
+  error?: string;
+};
+
+function FloatingSelect({ label, value, onChange, options, error }: FloatingSelectProps) {
+  const id = useId();
+  const filled = value.length > 0;
+  return (
+    <FieldShell id={id} label={label} filled={filled} error={error} alwaysFloating>
+      <select
+        id={id}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className={`input-underline ${error ? "invalid" : ""} ${filled ? "" : "text-[var(--color-cream)]/40"}`}
+      >
+        <option value="">Seleziona…</option>
+        {options.map((opt) => (
+          <option key={opt} value={opt}>
+            {opt}
+          </option>
+        ))}
+      </select>
+    </FieldShell>
+  );
+}
+
+function FieldShell({
+  id,
+  label,
+  filled,
+  error,
+  alwaysFloating,
   children,
 }: {
+  id: string;
   label: string;
+  filled: boolean;
   error?: string;
-  children: React.ReactNode;
+  alwaysFloating?: boolean;
+  children: ReactNode;
 }) {
+  const classes = ["field"];
+  if (filled || alwaysFloating) classes.push("is-filled");
+  if (error) classes.push("has-error");
   return (
-    <label className="block">
-      <span className="mb-1 block text-[10px] font-medium uppercase tracking-[0.22em] text-[var(--color-cream)]/55">
+    <div className={classes.join(" ")}>
+      <label htmlFor={id} className="field-label">
         {label}
-      </span>
+      </label>
       {children}
-      {error && (
-        <p className="mt-2 text-xs text-[#e0a48a]">{error}</p>
-      )}
-    </label>
+      {error && <p className="mt-2 text-xs text-[#e0a48a]">{error}</p>}
+    </div>
   );
 }

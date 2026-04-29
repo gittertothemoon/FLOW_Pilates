@@ -85,28 +85,97 @@ button {
     linear-gradient(135deg, #1a1a1a 0%, #2a2520 50%, #1a1a1a 100%);
 }
 
+/* Floating-label field — wrapper supplies the gold underline on focus */
+.field {
+  position: relative;
+  padding-top: 18px;
+}
+.field::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 1px;
+  background: var(--color-accent);
+  transition: width 320ms ease, left 320ms ease;
+}
+.field:focus-within::after {
+  left: 0;
+  width: 100%;
+}
+.field.has-error::after {
+  background: #d49377;
+}
+
+.field-label {
+  position: absolute;
+  left: 0;
+  top: 32px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  color: rgba(245, 240, 232, 0.45);
+  pointer-events: none;
+  transform-origin: left center;
+  transition: transform 220ms ease, color 220ms ease, top 220ms ease;
+}
+.field:focus-within .field-label,
+.field.is-filled .field-label {
+  top: 0;
+  transform: scale(0.72);
+  color: var(--color-accent-soft);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.field.has-error .field-label {
+  color: #d49377;
+}
+
 /* Underlined input on dark */
 .input-underline {
   background: transparent;
   border: 0;
-  border-bottom: 1px solid rgba(245, 240, 232, 0.2);
+  border-bottom: 1px solid rgba(245, 240, 232, 0.18);
   border-radius: 0;
   color: var(--color-cream);
-  padding: 14px 0;
+  padding: 12px 0;
   width: 100%;
   font-family: var(--font-sans);
   font-size: 15px;
   outline: none;
-  transition: border-color 200ms ease;
+  transition: border-color 220ms ease;
 }
 .input-underline::placeholder {
-  color: rgba(245, 240, 232, 0.35);
+  color: rgba(245, 240, 232, 0.0);
 }
 .input-underline:focus {
-  border-bottom-color: var(--color-accent);
+  border-bottom-color: rgba(245, 240, 232, 0.35);
 }
 .input-underline.invalid {
   border-bottom-color: #d49377;
+}
+.input-underline:-webkit-autofill,
+.input-underline:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--color-cream);
+  -webkit-box-shadow: 0 0 0 30px transparent inset;
+  transition: background-color 99999s ease-in-out 0s;
+  caret-color: var(--color-cream);
+}
+
+select.input-underline {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23c49a6c'><path d='M5.25 7.5L10 12.25 14.75 7.5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0 center;
+  background-size: 14px;
+  padding-right: 1.75rem;
+  cursor: pointer;
+}
+select.input-underline option {
+  background: #1a1a1a;
+  color: var(--color-cream);
 }
 
 /* Number marker (01, 02, ...) */
