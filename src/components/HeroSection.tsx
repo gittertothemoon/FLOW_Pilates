@@ -31,10 +31,9 @@ export function HeroSection() {
 
           <Reveal delay={120}>
             <img
-              src="/logo.png"
+              src="/logo-white.png"
               alt="FLOW Pilates Studio"
               className="mt-10 h-16 w-auto select-none sm:h-20"
-              style={{ filter: "brightness(0) invert(1)" }}
             />
           </Reveal>
 

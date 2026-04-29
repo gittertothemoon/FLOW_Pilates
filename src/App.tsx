@@ -35,10 +35,9 @@ function Header() {
           aria-label="FLOW Pilates Studio"
         >
           <img
-            src="/logo.png"
+            src="/logo-white.png"
             alt="FLOW Pilates Studio"
             className="h-10 w-auto select-none"
-            style={{ filter: "brightness(0) invert(1)" }}
           />
         </a>
         <nav className="hidden items-center gap-10 text-[12px] uppercase tracking-[0.22em] text-[var(--color-cream)]/70 md:flex">

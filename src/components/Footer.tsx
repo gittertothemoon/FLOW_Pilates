@@ -6,11 +6,10 @@ export function Footer() {
         <div className="flex flex-col gap-10 border-t border-[var(--color-cream)]/10 pt-12 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <img
-              src="/logo.png"
+              src="/logo-white.png"
               alt="FLOW Pilates Studio"
               loading="lazy"
               className="h-8 w-auto select-none"
-              style={{ filter: "brightness(0) invert(1)" }}
             />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-[var(--color-cream)]/55">
               Pilates Reformer Studio · progetto in fase di validazione
