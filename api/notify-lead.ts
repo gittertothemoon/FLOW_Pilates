@@ -12,6 +12,79 @@ type LeadPayload = {
   come_trovato?: string | null;
 };
 
+const RATE_WINDOW_MS = 60_000;
+const RATE_MAX_REQUESTS = 3;
+
+// Per-instance in-memory rate limiter. Edge instances are stateless across cold
+// starts and don't share state across regions, so this is best-effort — it
+// blunts trivial floods without requiring an external store.
+const rateBuckets: Map<string, number[]> =
+  (globalThis as { __rateBuckets?: Map<string, number[]> }).__rateBuckets ??
+  new Map();
+(globalThis as { __rateBuckets?: Map<string, number[]> }).__rateBuckets =
+  rateBuckets;
+
+const getClientIp = (req: Request): string => {
+  const fwd = req.headers.get("x-forwarded-for");
+  if (fwd) {
+    const first = fwd.split(",")[0]?.trim();
+    if (first) return first;
+  }
+  return req.headers.get("x-real-ip")?.trim() || "unknown";
+};
+
+const checkRateLimit = (ip: string): boolean => {
+  const now = Date.now();
+  const cutoff = now - RATE_WINDOW_MS;
+  const recent = (rateBuckets.get(ip) ?? []).filter((t) => t > cutoff);
+  if (recent.length >= RATE_MAX_REQUESTS) {
+    rateBuckets.set(ip, recent);
+    return false;
+  }
+  recent.push(now);
+  rateBuckets.set(ip, recent);
+  if (rateBuckets.size > 5000) {
+    for (const [key, stamps] of rateBuckets) {
+      if (stamps.every((t) => t <= cutoff)) rateBuckets.delete(key);
+    }
+  }
+  return true;
+};
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const isValidEmail = (value: string): boolean =>
+  value.length >= 5 && value.length <= 254 && EMAIL_RE.test(value);
+
+const validate = (lead: LeadPayload): string | null => {
+  const nome = (lead.nome ?? "").trim();
+  if (!nome) return "nome required";
+  if (nome.length > 120) return "nome too long";
+
+  const email = (lead.email ?? "").trim();
+  if (!email) return "email required";
+  if (!isValidEmail(email)) return "email invalid";
+
+  const telefono = (lead.telefono ?? "").trim();
+  if (telefono) {
+    if (telefono.length > 30) return "telefono too long";
+    if (telefono.replace(/\D/g, "").length < 7) return "telefono invalid";
+  }
+
+  const optionalLimits: Array<[keyof LeadPayload, number]> = [
+    ["comune", 80],
+    ["obiettivo", 60],
+    ["frequenza", 60],
+    ["come_trovato", 60],
+  ];
+  for (const [key, max] of optionalLimits) {
+    const v = (lead[key] ?? "") as string;
+    if (typeof v === "string" && v.length > max) return `${key} too long`;
+  }
+
+  return null;
+};
+
 const escapeHtml = (s: string) =>
   s.replace(/[&<>"']/g, (c) =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!,
@@ -26,32 +99,43 @@ const row = (label: string, value: string | null | undefined) => {
     </tr>`;
 };
 
+const jsonResponse = (status: number, body: Record<string, unknown>) =>
+  new Response(JSON.stringify(body), {
+    status,
+    headers: { "content-type": "application/json" },
+  });
+
 export default async function handler(req: Request): Promise<Response> {
   if (req.method !== "POST") {
     return new Response("Method not allowed", { status: 405 });
+  }
+
+  const ip = getClientIp(req);
+  if (!checkRateLimit(ip)) {
+    return jsonResponse(429, { ok: false, error: "Too many requests" });
   }
 
   const apiKey = process.env.RESEND_API_KEY;
   const to = process.env.NOTIFICATION_EMAIL;
 
   if (!apiKey || !to) {
-    return new Response(
-      JSON.stringify({ ok: false, error: "Notification not configured" }),
-      { status: 503, headers: { "content-type": "application/json" } },
-    );
+    return jsonResponse(503, { ok: false, error: "Notification not configured" });
   }
 
   let lead: LeadPayload;
   try {
     lead = (await req.json()) as LeadPayload;
   } catch {
-    return new Response(JSON.stringify({ ok: false, error: "Invalid JSON" }), {
-      status: 400,
-      headers: { "content-type": "application/json" },
-    });
+    return jsonResponse(400, { ok: false, error: "Invalid JSON" });
   }
 
-  const nome = (lead.nome || "").trim() || "Senza nome";
+  const validationError = validate(lead);
+  if (validationError) {
+    return jsonResponse(400, { ok: false, error: "Invalid payload" });
+  }
+
+  const nome = (lead.nome ?? "").trim();
+  const email = (lead.email ?? "").trim();
   const subject = `Nuovo lead FLOW Pilates – ${nome}`;
   const timestamp = new Date().toLocaleString("it-IT", {
     timeZone: "Europe/Rome",
@@ -84,6 +168,8 @@ export default async function handler(req: Request): Promise<Response> {
   </body>
 </html>`;
 
+  const replyTo = isValidEmail(email) ? email : undefined;
+
   const resp = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
@@ -93,22 +179,17 @@ export default async function handler(req: Request): Promise<Response> {
     body: JSON.stringify({
       from: "FLOW Pilates <onboarding@resend.dev>",
       to: [to],
-      reply_to: lead.email || undefined,
+      reply_to: replyTo,
       subject,
       html,
     }),
   });
 
   if (!resp.ok) {
-    const detail = await resp.text();
-    return new Response(
-      JSON.stringify({ ok: false, status: resp.status, detail }),
-      { status: 502, headers: { "content-type": "application/json" } },
-    );
+    const detail = await resp.text().catch(() => "");
+    console.error("[notify-lead] resend failed", resp.status, detail);
+    return jsonResponse(502, { ok: false });
   }
 
-  return new Response(JSON.stringify({ ok: true }), {
-    status: 200,
-    headers: { "content-type": "application/json" },
-  });
+  return jsonResponse(200, { ok: true });
 }
