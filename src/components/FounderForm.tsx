@@ -147,6 +147,15 @@ export function FounderForm() {
       return;
     }
 
+    void fetch("/api/notify-lead", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      keepalive: true,
+    }).catch((err) => {
+      console.warn("[FLOW] notify-lead call failed", err);
+    });
+
     setSubmitted(true);
     setState(initialState);
     setErrors({});
