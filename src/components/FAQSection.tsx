@@ -4,23 +4,31 @@ import { Reveal } from "./Reveal";
 const faqs = [
   {
     q: "Lo studio è già aperto?",
-    a: "No, siamo in fase di pre-lancio e raccolta interesse.",
-  },
-  {
-    q: "Serve esperienza?",
-    a: "No, i percorsi saranno pensati anche per principianti.",
-  },
-  {
-    q: "È adatto anche agli uomini?",
-    a: "Sì, il Reformer è utile per postura, forza, mobilità e controllo.",
-  },
-  {
-    q: "Posso iscrivermi senza obbligo?",
-    a: "Sì, la lista prioritaria non comporta obblighi.",
+    a: "No. FLOW Pilates Studio è in fase di pre-apertura e validazione. Stiamo raccogliendo l'interesse reale del territorio prima di aprire i primi posti.",
   },
   {
     q: "Dove sarà lo studio?",
-    a: "A San Giorgio di Piano o nelle immediate vicinanze. La sede definitiva sarà comunicata agli iscritti.",
+    a: "L'obiettivo è aprire a San Giorgio di Piano o nelle immediate vicinanze. La sede definitiva sarà comunicata alle persone iscritte alla lista prioritaria.",
+  },
+  {
+    q: "Serve esperienza per iniziare?",
+    a: "No. Il percorso sarà pensato anche per chi parte da zero, con lezioni guidate e progressione graduale.",
+  },
+  {
+    q: "Il Reformer è adatto anche agli uomini?",
+    a: "Sì. Il Pilates Reformer è utile per forza, postura, mobilità, controllo e prevenzione della rigidità, indipendentemente dal genere.",
+  },
+  {
+    q: "Ho mal di schiena: posso partecipare?",
+    a: "Dipende dalla situazione. Il Pilates può aiutare a lavorare su controllo e mobilità, ma non sostituisce un percorso medico o fisioterapico. In caso di dolore, patologie o dubbi, è meglio confrontarsi prima con un professionista sanitario.",
+  },
+  {
+    q: "Entrare in lista comporta un obbligo?",
+    a: "No. Lasciare il contatto non comporta nessun obbligo di acquisto. Serve solo per ricevere aggiornamenti, priorità e informazioni sulle prime prove.",
+  },
+  {
+    q: "Quando partiranno le prime prove?",
+    a: "Le prime prove saranno organizzate quando avremo completato la fase di validazione e definito sede, calendario e disponibilità.",
   },
 ];
 
@@ -34,7 +42,7 @@ export function FAQSection() {
           <div className="lg:col-span-4">
             <Reveal>
               <div className="flex items-center gap-4">
-                <span className="section-number text-3xl">07</span>
+                <span className="section-number text-3xl">08</span>
                 <span className="h-px flex-1 max-w-16 bg-[var(--color-accent)]/40" />
               </div>
             </Reveal>
@@ -71,7 +79,7 @@ export function FAQSection() {
                       >
                         <span className="flex items-baseline gap-5">
                           <span className="font-display text-sm italic text-[var(--color-accent)]">
-                            0{i + 1}
+                            {String(i + 1).padStart(2, "0")}
                           </span>
                           <span className="font-display text-xl leading-tight text-[var(--color-ink)] sm:text-2xl">
                             {f.q}

@@ -5,6 +5,7 @@ import { SolutionSection } from "./components/SolutionSection";
 import { BenefitsSection } from "./components/BenefitsSection";
 import { FounderForm } from "./components/FounderForm";
 import { PricingSection } from "./components/PricingSection";
+import { LocalSection } from "./components/LocalSection";
 import { FAQSection } from "./components/FAQSection";
 import { FinalCTA } from "./components/FinalCTA";
 import { Footer } from "./components/Footer";
@@ -52,7 +53,7 @@ function Header() {
             className="transition hover:text-[var(--color-accent-soft)]"
             href="#founder-list"
           >
-            Lista founder
+            Lista prioritaria
           </a>
         </nav>
         <a
@@ -77,6 +78,7 @@ function App() {
         <BenefitsSection />
         <FounderForm />
         <PricingSection />
+        <LocalSection />
         <FAQSection />
         <FinalCTA />
       </main>

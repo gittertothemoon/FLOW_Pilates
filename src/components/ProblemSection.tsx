@@ -2,20 +2,20 @@ import { Reveal } from "./Reveal";
 
 const points = [
   {
-    title: "Poco tempo",
-    body: "Sessioni efficaci, programmate per integrarsi davvero nella settimana.",
+    title: "Poco tempo e poca continuità",
+    body: "Allenarsi diventa difficile quando manca un percorso chiaro e sostenibile.",
   },
   {
-    title: "Dolori o rigidità",
-    body: "Lavoro mirato su mobilità, stabilità e allineamento, senza forzature.",
+    title: "Postura, rigidità e schiena",
+    body: "Il corpo chiede attenzione, ma spesso viene allenato in modo troppo casuale.",
   },
   {
     title: "Bisogno di guida",
-    body: "Istruttori qualificati che seguono ogni movimento, con correzione costante.",
+    body: "Non basta muoversi: serve qualcuno che corregga, adatti e accompagni.",
   },
   {
-    title: "Allenamento elegante e controllato",
-    body: "Un ambiente curato, silenzioso, dove il movimento ha la giusta priorità.",
+    title: "Ambiente sbagliato",
+    body: "Se il contesto non ti fa sentire a tuo agio, è difficile restare costante.",
   },
 ];
 
@@ -40,16 +40,15 @@ export function ProblemSection() {
                 style={{ fontSize: "clamp(2rem, 4.5vw, 3.75rem)" }}
               >
                 Non ti serve un'altra palestra
-                <span className="italic text-[var(--color-accent-deep)]"> piena </span>
-                e
-                <span className="italic text-[var(--color-accent-deep)]"> caotica.</span>
+                <span className="italic text-[var(--color-accent-deep)]"> affollata.</span>
               </h2>
             </Reveal>
             <Reveal delay={220}>
               <p className="mt-6 max-w-xl text-base leading-relaxed text-[var(--color-muted)] sm:text-lg">
-                Molte persone vogliono rimettersi in forma, migliorare postura
-                e sentirsi meglio, ma non si riconoscono nell'ambiente
-                rumoroso e dispersivo delle palestre tradizionali.
+                Molte persone vogliono allenarsi meglio, sentirsi più forti e
+                migliorare la postura, ma non si riconoscono negli ambienti
+                rumorosi, dispersivi e poco seguiti delle palestre
+                tradizionali.
               </p>
             </Reveal>
           </div>

@@ -2,28 +2,20 @@ import { Reveal } from "./Reveal";
 
 const features = [
   {
-    title: "Classi Reformer in piccoli gruppi",
-    body: "Massimo poche persone per sessione. Più attenzione, più qualità del lavoro.",
+    title: "Piccoli gruppi",
+    body: "Meno persone, più attenzione sulla tecnica e sulla qualità del movimento.",
   },
   {
-    title: "Attenzione alla tecnica",
-    body: "Ogni esercizio viene osservato e corretto. Il movimento giusto, non quello veloce.",
+    title: "Metodo progressivo",
+    body: "Ogni lezione deve aiutarti a costruire controllo, forza e consapevolezza.",
   },
   {
-    title: "Percorsi progressivi",
-    body: "Programmi pensati per crescere nel tempo, da principianti a praticanti esperti.",
+    title: "Reformer Pilates",
+    body: "Un lavoro completo e controllato, pensato per postura, tono, mobilità e stabilità.",
   },
   {
-    title: "Ambiente tranquillo",
-    body: "Uno spazio curato, silenzioso, dove la concentrazione è parte dell'allenamento.",
-  },
-  {
-    title: "Istruttori qualificati",
-    body: "Professionisti formati sul metodo Reformer, con esperienza nel lavoro posturale.",
-  },
-  {
-    title: "Prenotazione semplice",
-    body: "Calendario chiaro, posto garantito, nessuna confusione tra orari e attese.",
+    title: "Ambiente curato",
+    body: "Uno spazio boutique, calmo e ordinato, lontano dalla logica della palestra affollata.",
   },
 ];
 
@@ -50,17 +42,18 @@ export function SolutionSection() {
                 className="mt-8 font-display font-medium leading-[1.05] tracking-[-0.02em] text-[var(--color-cream-bright)]"
                 style={{ fontSize: "clamp(2rem, 4.5vw, 3.75rem)" }}
               >
-                Uno studio più piccolo.
+                Più attenzione.
                 <span className="block italic text-[var(--color-accent-soft)]">
-                  Un lavoro più preciso.
+                  Meno caos.
                 </span>
               </h2>
             </Reveal>
             <Reveal delay={220}>
               <p className="mt-6 max-w-xl text-base leading-relaxed text-[var(--color-cream)]/65 sm:text-lg">
-                FLOW nasce con un'idea semplice: meno persone per sessione,
-                più qualità in ogni movimento. Un percorso costruito sulla
-                tecnica, sulla progressione e sul rispetto del tuo corpo.
+                FLOW nasce per portare a San Giorgio di Piano un modo più
+                preciso, curato e accessibile di allenarsi con il Pilates
+                Reformer: piccoli gruppi, esercizi guidati e progressione
+                reale nel tempo.
               </p>
             </Reveal>
             <Reveal delay={320}>

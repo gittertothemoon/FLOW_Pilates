@@ -3,20 +3,19 @@ import { Reveal } from "./Reveal";
 import { supabase, type FounderLeadInsert } from "../lib/supabase";
 
 const goals = [
-  "Migliorare la postura",
-  "Tonificazione muscolare",
-  "Ridurre dolori alla schiena",
-  "Recupero post-infortunio",
-  "Flessibilità e mobilità",
-  "Benessere generale e relax",
-  "Preparazione atletica",
+  "Migliorare postura",
+  "Tonificare",
+  "Ridurre rigidità / mal di schiena",
+  "Rimettermi in movimento",
+  "Migliorare mobilità",
+  "Provare il Reformer",
 ] as const;
 
 const frequencies = [
   "1 volta a settimana",
   "2 volte a settimana",
-  "3+ volte a settimana",
-  "Non sono ancora sicuro/a",
+  "Più volte a settimana",
+  "Vorrei prima provare",
 ] as const;
 
 const referrals = [
@@ -51,11 +50,11 @@ const initialState: FormState = {
 };
 
 const benefitsList = [
-  "priorità sui primi posti",
-  "prezzo lancio riservato",
-  "invito agli open day",
-  "aggiornamenti prima dell'apertura",
-  "nessun obbligo di acquisto",
+  "Priorità sui primi posti disponibili",
+  "Invito agli open day e alle prime prove",
+  "Accesso a eventuali condizioni di lancio",
+  "Aggiornamenti sulla sede e sulla data di apertura",
+  "Nessun obbligo di acquisto",
 ];
 
 function validate(state: FormState) {
@@ -170,7 +169,7 @@ export function FounderForm() {
                 <span className="section-number text-3xl">05</span>
                 <span className="h-px flex-1 max-w-16 bg-[var(--color-accent)]/40" />
                 <span className="text-[11px] uppercase tracking-[0.28em] text-[var(--color-muted-dark)]">
-                  Lista founder
+                  Lista prioritaria
                 </span>
               </div>
             </Reveal>
@@ -181,15 +180,22 @@ export function FounderForm() {
               >
                 Entra nella
                 <span className="block italic text-[var(--color-accent-soft)]">
-                  lista founder
+                  lista prioritaria
                 </span>
               </h2>
             </Reveal>
             <Reveal delay={220}>
               <p className="mt-8 max-w-xl text-base leading-relaxed text-[var(--color-cream)]/70 sm:text-lg">
-                FLOW sta raccogliendo le prime adesioni per capire quante
-                persone sono realmente interessate a uno studio Pilates
-                Reformer a San Giorgio di Piano.
+                Stiamo raccogliendo le prime adesioni per capire quante
+                persone sono realmente interessate a FLOW Pilates Studio a
+                San Giorgio di Piano.
+              </p>
+            </Reveal>
+            <Reveal delay={280}>
+              <p className="mt-5 max-w-xl text-base leading-relaxed text-[var(--color-cream)]/65 sm:text-[15px]">
+                Lascia il tuo contatto per ricevere aggiornamenti sulla
+                pre-apertura, priorità sui primi posti disponibili,
+                eventuale prezzo di lancio e invito alle prime prove.
               </p>
             </Reveal>
 
@@ -268,8 +274,9 @@ export function FounderForm() {
                       <span className="italic text-[var(--color-accent-soft)]"> lista prioritaria.</span>
                     </h3>
                     <p className="max-w-md text-base leading-relaxed text-[var(--color-cream)]/70">
-                      Ti contatteremo presto: appena FLOW aprirà le prime prove
-                      founder ti scriviamo per primo.
+                      Richiesta ricevuta. Ti aggiorneremo appena saranno
+                      disponibili le prime prove e i posti in lista
+                      prioritaria.
                     </p>
                     <button
                       type="button"
@@ -283,7 +290,7 @@ export function FounderForm() {
                   <>
                     <div className="mb-8">
                       <p className="text-[10px] uppercase tracking-[0.32em] text-[var(--color-accent-soft)]">
-                        Riserva il tuo posto
+                        Richiedi accesso anticipato
                       </p>
                       <h3
                         className="mt-3 font-display font-medium leading-[1.05] text-[var(--color-cream-bright)]"
@@ -300,9 +307,9 @@ export function FounderForm() {
                       className="grid gap-x-10 gap-y-2 sm:grid-cols-2"
                     >
                       <FloatingInput
-                        label="Nome"
+                        label="Nome e cognome"
                         type="text"
-                        autoComplete="given-name"
+                        autoComplete="name"
                         value={state.name}
                         onChange={(v) => update("name", v)}
                         error={errors.name}
@@ -366,7 +373,8 @@ export function FounderForm() {
                           />
                           <span className="leading-relaxed">
                             Accetto di essere ricontattato/a per ricevere
-                            informazioni sul progetto FLOW Pilates Studio.
+                            informazioni su FLOW Pilates Studio, sulla
+                            pre-apertura e sulle prime prove disponibili.
                           </span>
                         </label>
                         {errors.consent && (
@@ -407,7 +415,7 @@ export function FounderForm() {
                               </>
                             ) : (
                               <>
-                                Voglio l'accesso founder
+                                Voglio ricevere accesso anticipato
                                 <span
                                   aria-hidden="true"
                                   className="transition-transform duration-300 group-hover:translate-x-0.5"

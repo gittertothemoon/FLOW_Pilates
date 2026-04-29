@@ -1,12 +1,12 @@
 import { Reveal } from "./Reveal";
 
 const benefits = [
-  { icon: "◐", title: "Postura più forte", body: "Una colonna allineata e un baricentro stabile, ogni giorno." },
-  { icon: "◇", title: "Corpo più tonico", body: "Tono muscolare progressivo, senza sovraccarichi inutili." },
-  { icon: "◯", title: "Schiena più libera", body: "Mobilità lombare, meno tensioni, più leggerezza nei movimenti." },
-  { icon: "◈", title: "Mobilità e controllo", body: "Articolazioni fluide e movimenti sotto controllo, sempre." },
-  { icon: "◉", title: "Allenamento senza caos", body: "Spazi curati, ritmo personale, attenzione individuale." },
-  { icon: "◆", title: "Percorso guidato", body: "Un programma chiaro e progressivo, costruito attorno a te." },
+  { icon: "◐", title: "Postura più stabile", body: "Un lavoro mirato su controllo, allineamento e consapevolezza del corpo." },
+  { icon: "◇", title: "Tono muscolare", body: "Esercizi progressivi per rinforzare il corpo senza allenamenti aggressivi." },
+  { icon: "◯", title: "Schiena meno rigida", body: "Movimenti guidati per migliorare mobilità e percezione del corpo." },
+  { icon: "◈", title: "Più controllo", body: "Ogni esercizio richiede precisione, respiro e presenza." },
+  { icon: "◉", title: "Allenamento senza caos", body: "Piccoli gruppi, prenotazione e un ambiente più tranquillo." },
+  { icon: "◆", title: "Costanza reale", body: "Un metodo sostenibile, pensato per entrare nella tua routine." },
 ];
 
 export function BenefitsSection() {
@@ -29,16 +29,16 @@ export function BenefitsSection() {
                 className="mt-8 font-display font-medium leading-[1.05] tracking-[-0.02em]"
                 style={{ fontSize: "clamp(2rem, 4.5vw, 3.75rem)" }}
               >
-                Risultati concreti,
+                Cosa vogliamo
                 <span className="block italic text-[var(--color-accent-deep)]">
-                  sostenibili nel tempo.
+                  aiutarti a costruire
                 </span>
               </h2>
             </Reveal>
             <Reveal delay={220}>
               <p className="mt-6 max-w-2xl text-base leading-relaxed text-[var(--color-muted)] sm:text-lg">
-                Il Reformer lavora a corpo intero in modo controllato. Postura,
-                tono, mobilità: cambiamenti reali, senza promesse esagerate.
+                Un percorso pensato per farti muovere meglio, sentirti più
+                stabile e allenarti con costanza.
               </p>
             </Reveal>
           </div>
@@ -87,6 +87,14 @@ export function BenefitsSection() {
             </Reveal>
           ))}
         </div>
+
+        <Reveal delay={400}>
+          <p className="mt-12 max-w-2xl text-xs leading-relaxed text-[var(--color-muted)]/80 sm:text-sm">
+            Il Pilates non sostituisce percorsi medici o fisioterapici. In
+            caso di dolore o patologie, è sempre consigliato confrontarsi
+            con un professionista sanitario.
+          </p>
+        </Reveal>
       </div>
     </section>
   );

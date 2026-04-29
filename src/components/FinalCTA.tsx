@@ -26,7 +26,7 @@ export function FinalCTA() {
         aria-hidden="true"
         className="pointer-events-none absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 text-[420px] font-display italic leading-none text-[var(--color-cream)]/[0.025] sm:block lg:text-[600px]"
       >
-        08
+        09
       </div>
 
       <div className="relative mx-auto max-w-[1100px] px-6 py-28 text-center sm:px-10 sm:py-36 lg:px-16 lg:py-44">
@@ -40,7 +40,7 @@ export function FinalCTA() {
             className="mx-auto mt-8 max-w-4xl font-display font-medium leading-[1.0] tracking-[-0.025em] text-[var(--color-cream-bright)]"
             style={{ fontSize: "clamp(2.5rem, 6.5vw, 5.5rem)" }}
           >
-            Vuoi uno studio Pilates Reformer
+            Vuoi che FLOW nasca
             <span className="block italic text-[var(--color-accent-soft)]">
               a San Giorgio di Piano?
             </span>
@@ -48,8 +48,9 @@ export function FinalCTA() {
         </Reveal>
         <Reveal delay={240}>
           <p className="mx-auto mt-8 max-w-xl text-base leading-relaxed text-[var(--color-cream)]/70 sm:text-lg">
-            Lascia il tuo contatto. Se la risposta del territorio sarà forte,
-            apriremo i primi posti founder.
+            Lascia il tuo contatto e aiutaci a capire quanto interesse c'è
+            per uno studio Pilates Reformer in piccoli gruppi, curato e
+            guidato con metodo.
           </p>
         </Reveal>
         <Reveal delay={360}>
@@ -58,7 +59,7 @@ export function FinalCTA() {
               href="#founder-list"
               className="group inline-flex items-center justify-center gap-3 rounded-full bg-[var(--color-accent)] px-10 py-4 text-sm font-medium tracking-wide text-[var(--color-dark)] transition hover:bg-[var(--color-accent-soft)]"
             >
-              Entra nella lista prioritaria
+              Entra in lista prioritaria
               <span
                 aria-hidden="true"
                 className="transition-transform group-hover:translate-x-0.5"
@@ -67,6 +68,11 @@ export function FinalCTA() {
               </span>
             </a>
           </div>
+        </Reveal>
+        <Reveal delay={460}>
+          <p className="mx-auto mt-6 text-[11px] uppercase tracking-[0.22em] text-[var(--color-cream)]/55">
+            Nessun obbligo · Solo aggiornamenti sulla pre-apertura
+          </p>
         </Reveal>
       </div>
     </section>

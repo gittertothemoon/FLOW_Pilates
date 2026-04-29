@@ -12,7 +12,7 @@ export function Footer() {
               className="h-8 w-auto select-none"
             />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-[var(--color-cream)]/55">
-              Pilates Reformer Studio · progetto in fase di validazione
+              Progetto in fase di pre-apertura e validazione.
             </p>
           </div>
 
@@ -26,6 +26,11 @@ export function Footer() {
             </p>
           </div>
         </div>
+
+        <p className="mt-10 max-w-2xl text-[11px] leading-relaxed text-[var(--color-cream)]/40 sm:mt-12">
+          Le immagini presenti nel sito sono visual concept e rappresentano
+          la direzione estetica del progetto.
+        </p>
       </div>
     </footer>
   );

@@ -2,21 +2,24 @@ import { Reveal } from "./Reveal";
 
 const tiers = [
   {
-    name: "Prova introduttiva",
-    price: "Da 15–20 €",
-    description: "Una prima sessione guidata per conoscere il Reformer e il metodo.",
+    name: "Prima prova",
+    price: "Prezzo comunicato in pre-apertura",
+    description:
+      "Una lezione introduttiva per conoscere il metodo FLOW e capire se il Reformer è adatto a te.",
     highlight: false,
   },
   {
-    name: "Pacchetto founder · 4 lezioni",
-    price: "Prezzo riservato ai primi iscritti",
-    description: "Quattro sessioni a tariffa founder, dedicate a chi entra nella lista prioritaria.",
+    name: "Pacchetto di avvio",
+    price: "Accesso prioritario per la lista",
+    description:
+      "Un primo percorso per iniziare con continuità e prendere confidenza con il metodo.",
     highlight: true,
   },
   {
     name: "Percorso mensile",
-    price: "1 o 2 lezioni a settimana",
-    description: "Una pratica costante, costruita su un calendario chiaro e gestibile.",
+    price: "Dettagli in fase di definizione",
+    description:
+      "Soluzioni per chi vuole allenarsi una o due volte a settimana con costanza.",
     highlight: false,
   },
 ];
@@ -40,17 +43,17 @@ export function PricingSection() {
               className="mt-8 font-display font-medium leading-[1.05] tracking-[-0.02em]"
               style={{ fontSize: "clamp(2rem, 4.5vw, 3.75rem)" }}
             >
-              Prezzi founder
+              Percorsi e prezzi
               <span className="block italic text-[var(--color-accent-deep)]">
-                in fase di definizione
+                in definizione
               </span>
             </h2>
           </Reveal>
           <Reveal delay={220}>
             <p className="mt-6 max-w-2xl text-base leading-relaxed text-[var(--color-muted)] sm:text-lg">
-              Stiamo costruendo un listino sostenibile e trasparente. Le
-              tariffe qui sotto sono indicative: i prezzi definitivi saranno
-              comunicati in anteprima alla lista prioritaria.
+              Stiamo costruendo l'offerta in base all'interesse reale della
+              zona. Chi entra in lista prioritaria riceverà per primo
+              informazioni su prove, pacchetti e condizioni di lancio.
             </p>
           </Reveal>
         </div>
@@ -68,7 +71,7 @@ export function PricingSection() {
               >
                 {t.highlight && (
                   <span className="absolute -top-3 left-8 inline-flex items-center gap-2 rounded-full bg-[var(--color-accent)] px-4 py-1.5 text-[10px] font-medium uppercase tracking-[0.22em] text-[var(--color-dark)]">
-                    Founder
+                    Lista prioritaria
                   </span>
                 )}
 
@@ -125,8 +128,8 @@ export function PricingSection() {
 
         <Reveal delay={400}>
           <p className="mt-12 max-w-2xl text-sm leading-relaxed text-[var(--color-muted)]">
-            I prezzi definitivi saranno comunicati solo agli iscritti alla
-            lista prioritaria prima dell'apertura.
+            Le condizioni definitive saranno comunicate prima dell'apertura
+            alle persone iscritte alla lista prioritaria.
           </p>
         </Reveal>
       </div>
