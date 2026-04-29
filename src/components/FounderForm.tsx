@@ -317,7 +317,7 @@ export function FounderForm() {
                         error={errors.email}
                       />
                       <FloatingInput
-                        label="Telefono / WhatsApp (opzionale)"
+                        label="Telefono / WhatsApp"
                         type="tel"
                         autoComplete="tel"
                         inputMode="tel"
@@ -326,7 +326,7 @@ export function FounderForm() {
                         error={errors.phone}
                       />
                       <FloatingInput
-                        label="Comune (opzionale)"
+                        label="Comune"
                         type="text"
                         autoComplete="address-level2"
                         value={state.city}
@@ -335,13 +335,13 @@ export function FounderForm() {
                       />
 
                       <FloatingSelect
-                        label="Obiettivo principale (opzionale)"
+                        label="Obiettivo principale"
                         value={state.goal}
                         onChange={(v) => update("goal", v)}
                         options={goals}
                       />
                       <FloatingSelect
-                        label="Frequenza desiderata (opzionale)"
+                        label="Frequenza desiderata"
                         value={state.frequency}
                         onChange={(v) => update("frequency", v)}
                         options={frequencies}
@@ -349,7 +349,7 @@ export function FounderForm() {
 
                       <div className="sm:col-span-2">
                         <FloatingSelect
-                          label="Come ci hai trovato? (opzionale)"
+                          label="Come ci hai trovato?"
                           value={state.referral}
                           onChange={(v) => update("referral", v)}
                           options={referrals}

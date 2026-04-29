@@ -111,20 +111,26 @@ button {
 .field-label {
   position: absolute;
   left: 0;
+  right: 0;
   top: 32px;
+  max-width: 100%;
   font-family: var(--font-sans);
   font-size: 15px;
   color: rgba(245, 240, 232, 0.45);
   pointer-events: none;
   transform-origin: left center;
-  transition: transform 220ms ease, color 220ms ease, top 220ms ease;
+  transition: transform 220ms ease, color 220ms ease, top 220ms ease, font-size 220ms ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .field:focus-within .field-label,
 .field.is-filled .field-label {
   top: 0;
-  transform: scale(0.72);
+  font-size: 10px;
+  transform: none;
   color: var(--color-accent-soft);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   font-weight: 500;
 }
