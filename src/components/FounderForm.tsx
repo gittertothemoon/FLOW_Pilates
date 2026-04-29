@@ -1,7 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { Reveal } from "./Reveal";
-
-const STORAGE_KEY = "flow_pilates_founder_leads_v1";
+import { supabase, type FounderLeadInsert } from "../lib/supabase";
 
 const goals = [
   "postura",
@@ -17,17 +16,6 @@ const frequencies = [
   "2 volte a settimana",
   "più volte a settimana",
 ] as const;
-
-type Lead = {
-  id: string;
-  createdAt: string;
-  name: string;
-  email: string;
-  phone: string;
-  city: string;
-  goal: string;
-  frequency: string;
-};
 
 type FormState = {
   name: string;
@@ -65,29 +53,19 @@ function validate(state: FormState) {
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.email)) {
     errors.email = "Email non valida.";
   }
-  if (!state.phone.trim()) {
-    errors.phone = "Inserisci un recapito telefonico.";
-  } else if (state.phone.replace(/\D/g, "").length < 7) {
+  if (state.phone.trim() && state.phone.replace(/\D/g, "").length < 7) {
     errors.phone = "Numero non valido.";
   }
-  if (!state.city.trim()) errors.city = "Indica il tuo comune.";
-  if (!state.goal) errors.goal = "Seleziona un obiettivo.";
-  if (!state.frequency) errors.frequency = "Seleziona una frequenza.";
   if (!state.consent) errors.consent = "Conferma il consenso per continuare.";
   return errors;
-}
-
-function generateId() {
-  if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
-    return crypto.randomUUID();
-  }
-  return `lead_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
 }
 
 export function FounderForm() {
   const [state, setState] = useState<FormState>(initialState);
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setState((s) => ({ ...s, [key]: value }));
@@ -98,37 +76,54 @@ export function FounderForm() {
         return next;
       });
     }
+    if (submitError) setSubmitError(null);
   }
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (submitting) return;
+
     const v = validate(state);
     if (Object.keys(v).length > 0) {
       setErrors(v);
       return;
     }
 
-    const lead: Lead = {
-      id: generateId(),
-      createdAt: new Date().toISOString(),
-      name: state.name.trim(),
-      email: state.email.trim().toLowerCase(),
-      phone: state.phone.trim(),
-      city: state.city.trim(),
-      goal: state.goal,
-      frequency: state.frequency,
-    };
-
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      const list: Lead[] = raw ? JSON.parse(raw) : [];
-      list.push(lead);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-    } catch (err) {
-      console.warn("Impossibile salvare il lead in localStorage", err);
+    if (!supabase) {
+      setSubmitError(
+        "Servizio non ancora configurato. Riprova tra qualche minuto.",
+      );
+      return;
     }
 
-    console.log("[FLOW] Founder lead:", lead);
+    const payload: FounderLeadInsert = {
+      nome: state.name.trim(),
+      email: state.email.trim().toLowerCase(),
+      telefono: state.phone.trim() || null,
+      comune: state.city.trim() || null,
+      obiettivo: state.goal || null,
+      frequenza: state.frequency || null,
+    };
+
+    setSubmitting(true);
+    setSubmitError(null);
+
+    const { error } = await supabase.from("founder_leads").insert(payload);
+
+    setSubmitting(false);
+
+    if (error) {
+      // 23505 = unique_violation (duplicate email)
+      if (error.code === "23505") {
+        setErrors({ email: "Questa email è già registrata." });
+        return;
+      }
+      console.error("[FLOW] founder_leads insert failed", error);
+      setSubmitError(
+        "Qualcosa è andato storto. Riprova fra qualche istante.",
+      );
+      return;
+    }
 
     setSubmitted(true);
     setState(initialState);
@@ -137,8 +132,7 @@ export function FounderForm() {
 
   return (
     <section
-      id="founder-list"
-      className="dark-section-gradient grain relative scroll-mt-20 overflow-hidden text-[var(--color-cream)]"
+      className="dark-section-gradient grain relative overflow-hidden text-[var(--color-cream)]"
     >
       <div
         aria-hidden="true"
@@ -213,7 +207,8 @@ export function FounderForm() {
           <div className="lg:col-span-7">
             <Reveal delay={200}>
               <div
-                className="relative rounded-[28px] border border-[var(--color-cream)]/10 bg-[var(--color-cream)]/[0.02] p-7 backdrop-blur-md sm:p-12"
+                id="founder-list"
+                className="relative scroll-mt-24 rounded-[28px] border border-[var(--color-cream)]/10 bg-[var(--color-cream)]/[0.02] p-6 backdrop-blur-md sm:p-10 lg:p-12"
                 style={{
                   boxShadow:
                     "inset 0 1px 0 rgba(245,240,232,0.06), 0 30px 80px rgba(0,0,0,0.4)",
@@ -223,25 +218,38 @@ export function FounderForm() {
                   <div
                     role="status"
                     aria-live="polite"
-                    className="flex flex-col items-start gap-5 py-8"
+                    className="flex flex-col items-start gap-5 py-6 sm:py-8"
                   >
-                    <span className="inline-flex h-14 w-14 items-center justify-center rounded-full border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10 text-2xl text-[var(--color-accent-soft)]">
-                      ✓
+                    <span className="success-check inline-flex h-14 w-14 items-center justify-center rounded-full border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10 text-[var(--color-accent-soft)]">
+                      <svg viewBox="0 0 32 32" className="h-7 w-7" fill="none">
+                        <path
+                          d="M7 16.5l6 6 12-13"
+                          stroke="currentColor"
+                          strokeWidth="2.4"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          pathLength={1}
+                          style={{
+                            strokeDasharray: 1,
+                            strokeDashoffset: 0,
+                            animation: "checkdraw 600ms ease-out 80ms both",
+                          }}
+                        />
+                      </svg>
                     </span>
                     <h3
                       className="font-display font-medium text-[var(--color-cream-bright)]"
                       style={{ fontSize: "clamp(1.75rem, 3vw, 2.5rem)" }}
                     >
-                      Grazie, sei nella
+                      Sei nella
                       <span className="italic text-[var(--color-accent-soft)]">
                         {" "}
                         lista prioritaria.
                       </span>
                     </h3>
                     <p className="max-w-md text-base leading-relaxed text-[var(--color-cream)]/70">
-                      Ti ricontatteremo appena FLOW aprirà le prime prove
-                      founder. Nel frattempo conserviamo il tuo posto in
-                      priorità.
+                      Ti contatteremo presto: appena FLOW aprirà le prime prove
+                      founder ti scriviamo per primo.
                     </p>
                     <button
                       type="button"
@@ -255,7 +263,7 @@ export function FounderForm() {
                   <form
                     onSubmit={handleSubmit}
                     noValidate
-                    className="grid gap-7 sm:grid-cols-2 sm:gap-x-10"
+                    className="grid gap-6 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-7"
                   >
                     <Field label="Nome" error={errors.name}>
                       <input
@@ -272,6 +280,7 @@ export function FounderForm() {
                       <input
                         type="email"
                         autoComplete="email"
+                        inputMode="email"
                         value={state.email}
                         onChange={(e) => update("email", e.target.value)}
                         className={`input-underline ${errors.email ? "invalid" : ""}`}
@@ -279,10 +288,14 @@ export function FounderForm() {
                       />
                     </Field>
 
-                    <Field label="Telefono / WhatsApp" error={errors.phone}>
+                    <Field
+                      label="Telefono / WhatsApp (opzionale)"
+                      error={errors.phone}
+                    >
                       <input
                         type="tel"
                         autoComplete="tel"
+                        inputMode="tel"
                         value={state.phone}
                         onChange={(e) => update("phone", e.target.value)}
                         className={`input-underline ${errors.phone ? "invalid" : ""}`}
@@ -290,7 +303,7 @@ export function FounderForm() {
                       />
                     </Field>
 
-                    <Field label="Comune" error={errors.city}>
+                    <Field label="Comune (opzionale)" error={errors.city}>
                       <input
                         type="text"
                         autoComplete="address-level2"
@@ -315,8 +328,8 @@ export function FounderForm() {
                           paddingRight: "1.75rem",
                         }}
                       >
-                        <option value="" disabled style={{ background: "#1a1a1a" }}>
-                          Seleziona un obiettivo
+                        <option value="" style={{ background: "#1a1a1a" }}>
+                          Seleziona (opzionale)
                         </option>
                         {goals.map((g) => (
                           <option key={g} value={g} style={{ background: "#1a1a1a" }}>
@@ -340,8 +353,8 @@ export function FounderForm() {
                           paddingRight: "1.75rem",
                         }}
                       >
-                        <option value="" disabled style={{ background: "#1a1a1a" }}>
-                          Seleziona una frequenza
+                        <option value="" style={{ background: "#1a1a1a" }}>
+                          Seleziona (opzionale)
                         </option>
                         {frequencies.map((f) => (
                           <option key={f} value={f} style={{ background: "#1a1a1a" }}>
@@ -371,18 +384,41 @@ export function FounderForm() {
                       )}
                     </div>
 
+                    {submitError && (
+                      <div
+                        className="sm:col-span-2 rounded-md border border-[#e0a48a]/30 bg-[#e0a48a]/5 px-4 py-3 text-sm text-[#e0a48a]"
+                        role="alert"
+                      >
+                        {submitError}
+                      </div>
+                    )}
+
                     <div className="sm:col-span-2 sm:mt-2">
                       <button
                         type="submit"
-                        className="group inline-flex w-full items-center justify-center gap-3 rounded-full bg-[var(--color-accent)] px-8 py-4 text-sm font-medium tracking-wide text-[var(--color-dark)] transition hover:bg-[var(--color-accent-soft)] sm:w-auto"
+                        disabled={submitting}
+                        aria-busy={submitting}
+                        className="group inline-flex w-full items-center justify-center gap-3 rounded-full bg-[var(--color-accent)] px-8 py-4 text-sm font-medium tracking-wide text-[var(--color-dark)] transition hover:bg-[var(--color-accent-soft)] disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
                       >
-                        Voglio ricevere l'accesso founder
-                        <span
-                          aria-hidden="true"
-                          className="transition-transform group-hover:translate-x-0.5"
-                        >
-                          →
-                        </span>
+                        {submitting ? (
+                          <>
+                            <span
+                              aria-hidden="true"
+                              className="h-4 w-4 animate-spin rounded-full border-2 border-[var(--color-dark)]/30 border-t-[var(--color-dark)]"
+                            />
+                            Invio in corso...
+                          </>
+                        ) : (
+                          <>
+                            Voglio ricevere l'accesso founder
+                            <span
+                              aria-hidden="true"
+                              className="transition-transform group-hover:translate-x-0.5"
+                            >
+                              →
+                            </span>
+                          </>
+                        )}
                       </button>
                       <p className="mt-4 text-xs uppercase tracking-[0.18em] text-[var(--color-cream)]/45">
                         Iscrizione gratuita · Nessun obbligo di acquisto
