@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { Reveal } from "./Reveal";
 import { supabase, type FounderLeadInsert } from "../lib/supabase";
 
@@ -66,6 +66,16 @@ export function FounderForm() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!submitted) return;
+    const t = setTimeout(() => {
+      document
+        .getElementById("founder-success")
+        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 100);
+    return () => clearTimeout(t);
+  }, [submitted]);
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setState((s) => ({ ...s, [key]: value }));
@@ -216,6 +226,7 @@ export function FounderForm() {
               >
                 {submitted ? (
                   <div
+                    id="founder-success"
                     role="status"
                     aria-live="polite"
                     className="flex flex-col items-start gap-5 py-6 sm:py-8"
