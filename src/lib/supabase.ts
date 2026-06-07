@@ -15,4 +15,5 @@ export type FounderLeadInsert = {
   comune: string | null;
   obiettivo: string | null;
   frequenza: string | null;
+  come_trovato: string | null;
 };

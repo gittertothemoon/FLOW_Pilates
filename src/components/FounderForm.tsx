@@ -118,7 +118,7 @@ export function FounderForm() {
       return;
     }
 
-    const payload: FounderLeadInsert & { come_trovato: string | null } = {
+    const payload: FounderLeadInsert = {
       nome: state.name.trim(),
       email: state.email.trim().toLowerCase(),
       telefono: state.phone.trim() || null,

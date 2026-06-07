@@ -1,73 +1,68 @@
-# React + TypeScript + Vite
+# FLOW Pilates Studio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Landing page di **pre-apertura** per uno studio boutique di Pilates Reformer a
+San Giorgio di Piano (Bologna). Raccoglie la _lista prioritaria_ dei futuri
+clienti tramite un form di waitlist, validando la domanda prima dell'apertura.
 
-Currently, two official plugins are available:
+🔗 **Live:** https://flow-pilates-studio-bo.vercel.app
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Cosa fa
 
-## React Compiler
+- **Landing single-page** mobile-first: hero, racconto del metodo (problema →
+  soluzione → benefici), pricing placeholder, zona servita, FAQ.
+- **Form lista prioritaria** con validazione client-side, label flottanti,
+  gestione duplicati e stato di successo animato. I lead vengono salvati su
+  **Supabase** e notificati via email con una **Vercel Edge Function** (Resend).
+- **Micro-interazioni** con un componente `Reveal` basato su `IntersectionObserver`
+  (fade-in allo scroll), senza librerie di animazione.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Stack
 
-## Expanding the ESLint configuration
+| Ambito | Tecnologia |
+| --- | --- |
+| UI | React 19 + TypeScript |
+| Build | Vite 8 |
+| Styling | Tailwind CSS v4 (config CSS-first) |
+| Dati | Supabase (tabella `founder_leads`, RLS insert-only) |
+| Serverless | Vercel Edge Function + Resend (notifica lead) |
+| Hosting | Vercel |
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Sviluppo
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+cp .env.example .env.local   # imposta le variabili Supabase
+npm run dev                  # http://localhost:5173
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Script
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+| Comando | Descrizione |
+| --- | --- |
+| `npm run dev` | Dev server Vite |
+| `npm run build` | Type-check (`tsc -b`) + build di produzione |
+| `npm run lint` | ESLint |
+| `npm run preview` | Anteprima della build |
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Variabili d'ambiente
+
+| Variabile | Dove | Scopo |
+| --- | --- | --- |
+| `VITE_SUPABASE_URL` | client | URL progetto Supabase |
+| `VITE_SUPABASE_ANON_KEY` | client | Publishable key (protetta da RLS) |
+| `RESEND_API_KEY` | edge function | Invio email di notifica lead |
+| `NOTIFICATION_EMAIL` | edge function | Destinatario delle notifiche |
+
+Le chiavi server stanno solo in env su Vercel — vedi `.env.example` per il
+template. Nessun segreto è committato nel repo.
+
+## Struttura
+
+```
+src/
+├── App.tsx              # composizione della pagina
+├── components/          # sezioni (Hero, FounderForm, FAQ, ...) + Reveal
+└── lib/supabase.ts      # client + tipi
+api/notify-lead.ts       # edge function: rate-limit + validazione + email
+supabase/migrations/     # schema tabella lead
 ```
